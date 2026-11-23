@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wishing Stones — The Invite List</title>
+<link rel="stylesheet" href="styles.css">
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--surface-page);
+    color: var(--text-body);
+    font-family: var(--font-body);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: var(--maxw-wide); margin: 0 auto; padding: 0 var(--gutter); }
+
+  /* ---- Hero ---- */
+  .hero { text-align: center; padding: var(--space-9) 0 var(--space-6); }
+  .kicker {
+    font-family: var(--font-hand); font-weight: 600; color: var(--accent);
+    font-size: 1.9rem; transform: rotate(-2deg); margin-bottom: 4px;
+  }
+  .eyebrow {
+    font-family: var(--font-body); font-size: 13px; text-transform: uppercase;
+    letter-spacing: var(--ls-label); color: var(--brand-green); margin-bottom: 14px;
+  }
+  h1.title {
+    font-family: var(--font-display); font-weight: 800; font-size: var(--fs-display);
+    line-height: 1; letter-spacing: -0.02em; color: var(--sea-900); margin: 0 0 18px;
+  }
+  h1.title em { font-style: normal; color: var(--brand-green); }
+  .lead {
+    font-family: var(--font-body); font-size: var(--fs-lead); line-height: 1.55;
+    color: var(--text-body); max-width: 60ch; margin: 0 auto var(--space-6);
+  }
+  .stats { display: flex; flex-wrap: wrap; gap: var(--space-4); justify-content: center; }
+  .stat {
+    background: var(--surface-card); border: 1px solid var(--border-hairline);
+    border-radius: var(--radius-lg); box-shadow: var(--shadow-sm);
+    padding: 14px 22px; min-width: 150px;
+  }
+  .stat b {
+    display: block; font-family: var(--font-display); font-weight: 800;
+    font-size: 2rem; line-height: 1; color: var(--sea-900);
+  }
+  .stat span {
+    font-family: var(--font-body); font-size: var(--fs-caption); color: var(--text-muted);
+    text-transform: uppercase; letter-spacing: 0.08em;
+  }
+
+  /* ---- Dream note ---- */
+  .dream {
+    max-width: 760px; margin: var(--space-7) auto 0; text-align: center;
+    background: var(--sand-200); border: 1px dashed var(--driftwood-300);
+    border-radius: var(--radius-lg); padding: var(--space-5) var(--space-6);
+  }
+  .dream p { margin: 0; font-family: var(--font-body); font-style: italic; color: var(--text-muted); }
+  .dream .hand { font-style: normal; color: var(--accent); font-size: 1.5rem; display: block; margin-top: 8px; }
+
+  /* ---- Marquee ---- */
+  .marquee {
+    background: var(--brand-green); color: #fff; font-family: var(--font-display);
+    font-weight: 600; font-size: 18px; padding: 12px 0; margin: var(--space-8) 0 0;
+    display: flex; justify-content: center; gap: 30px; flex-wrap: wrap;
+  }
+
+  /* ---- Filter bar ---- */
+  .toolbar {
+    position: sticky; top: 0; z-index: 20;
+    background: rgba(246,240,225,0.86); backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border-hairline);
+    padding: var(--space-4) 0;
+  }
+  .filters { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; align-items: center; }
+  .chip {
+    font-family: var(--font-body); font-size: var(--fs-small); padding: 7px 16px;
+    border-radius: var(--radius-pill); cursor: pointer; border: 1.5px solid var(--driftwood-500);
+    background: transparent; color: var(--text-muted); white-space: nowrap;
+    transition: all var(--dur-fast) var(--ease-tide);
+  }
+  .chip:hover { border-color: var(--sea-700); color: var(--sea-900); }
+  .chip[aria-pressed="true"] { background: var(--sea-900); color: var(--sand-100); border-color: var(--sea-900); }
+  .chip .n { opacity: 0.6; font-size: 0.85em; margin-left: 4px; }
+  .chip.ready { border-style: dashed; border-color: var(--accent); color: var(--coral-600); }
+  .chip.ready[aria-pressed="true"] { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .divider { width: 1px; align-self: stretch; background: var(--border-hairline); margin: 0 4px; }
+
+  /* ---- Sections + cards ---- */
+  .section { padding: var(--space-8) 0 0; }
+  .sec-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: var(--space-5); }
+  .sec-head h2 {
+    font-family: var(--font-display); font-weight: 700; font-size: var(--fs-h2);
+    color: var(--sea-900); margin: 0; letter-spacing: -0.01em;
+  }
+  .sec-head .count { font-family: var(--font-hand); font-size: 1.5rem; color: var(--driftwood-500); }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-5); align-items: start; }
+
+  .card {
+    position: relative; background: var(--surface-card);
+    border: 1px solid var(--border-hairline); border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md); padding: var(--space-5) var(--space-5) var(--space-4);
+    transition: transform var(--dur-med) var(--ease-tide), box-shadow var(--dur-med) var(--ease-tide);
+  }
+  .card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lift); }
+  .card:nth-child(3n+2) { transform: rotate(-0.5deg); }
+  .card:nth-child(3n+2):hover { transform: translateY(-3px) rotate(-0.5deg); }
+  .cat {
+    display: flex; align-items: center; gap: 7px; margin-bottom: 12px;
+    font-family: var(--font-body); font-size: var(--fs-caption); text-transform: uppercase;
+    letter-spacing: var(--ls-label); color: var(--text-faint);
+  }
+  .cat svg { width: 15px; height: 15px; stroke: var(--brand-green); }
+  .name { font-family: var(--font-display); font-weight: 700; font-size: 1.35rem; color: var(--sea-900); margin: 0 0 4px; line-height: 1.1; }
+  .role { font-family: var(--font-body); font-style: italic; font-size: var(--fs-small); color: var(--text-muted); margin: 0 0 12px; }
+  .note { margin: 0 0 16px; color: var(--text-body); font-size: var(--fs-small); line-height: 1.55; }
+  .next { margin: 0; font-family: var(--font-hand); font-weight: 600; font-size: 1.2rem; color: var(--accent); }
+
+  .tape {
+    display: inline-block; font-family: var(--font-hand); font-weight: 700;
+    font-size: 1.05rem; line-height: 1; padding: 5px 15px; box-shadow: var(--shadow-prop);
+    clip-path: polygon(2% 8%, 12% 0, 30% 6%, 52% 0, 74% 7%, 92% 0, 100% 10%, 98% 88%, 88% 100%, 66% 93%, 44% 100%, 22% 92%, 6% 100%, 0 86%);
+  }
+  .tape.kraft { background: #E8D9B8; color: var(--driftwood-900); }
+  .tape.washi { background: var(--seaglass-200); color: var(--sea-900); }
+  .tape.coral { background: var(--accent-soft); color: var(--coral-600); }
+  .pin { position: absolute; top: -13px; right: 16px; transform: rotate(-5deg); }
+  .card:nth-child(2n) .pin { transform: rotate(4deg); }
+
+  .empty { text-align: center; color: var(--text-faint); font-family: var(--font-hand); font-size: 1.6rem; padding: var(--space-8) 0; display: none; }
+
+  /* ---- Footer ---- */
+  .footer {
+    background: var(--surface-ink); color: var(--text-on-ink);
+    margin-top: var(--space-9); padding: var(--space-9) 0;
+  }
+  .footer .eyebrow { color: var(--brand-sun); }
+  .footer h2 { font-family: var(--font-display); font-weight: 700; font-size: var(--fs-h2); color: var(--sand-50); margin: 0 0 var(--space-6); }
+  .host { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
+  .host .item svg { width: 26px; height: 26px; stroke: var(--brand-sun); margin-bottom: 10px; }
+  .host .item p { margin: 0; font-family: var(--font-body); font-size: var(--fs-body); line-height: 1.55; color: var(--text-on-ink); }
+  .host .item p em { color: var(--brand-sun); font-style: normal; }
+  .made { text-align: center; margin-top: var(--space-8); font-family: var(--font-hand); font-size: 1.5rem; color: var(--text-on-ink-muted); }
+
+  @media (max-width: 900px) { .grid, .host { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px) { .grid, .host { grid-template-columns: 1fr; } }
+
+  @media print {
+    .toolbar, .marquee { display: none !important; }
+    .card-item { display: block !important; break-inside: avoid; box-shadow: none; transform: none !important; }
+    .section { display: block !important; }
+    body { background: #fff; }
+    .footer { background: #fff; color: var(--text-body); }
+    .footer h2, .host .item p { color: var(--text-body); }
+  }
+</style>
+</head>
+<body>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#E4674A"/><text x="50" y="62" font-size="34" text-anchor="middle" fill="#1A1A1A" font-family="serif">WS</text></svg></template>
+
+  <!-- ===================== HERO ===================== -->
+  <header class="hero">
+    <div class="wrap">
+      <div class="kicker">who to bring to the island</div>
+      <div class="eyebrow">Wishing Stones · the programming book</div>
+      <h1 class="title">The Invite <em>List</em></h1>
+      <p class="lead">A running list of the musicians, storytellers, makers and healers worth bringing over — the ones who've already said yes, the warm leads to chase, and a few we can only dream about. Fill the room, set a box by the door, and let the acoustics do the rest.</p>
+      <div class="stats">
+        <div class="stat"><b>24</b><span>ideas pinned up</span></div>
+        <div class="stat"><b>9</b><span>ready to book</span></div>
+        <div class="stat"><b>100</b><span>seats, if we build out</span></div>
+      </div>
+
+      <div class="dream">
+        <p>In a village smaller than ours, Madonna, Kylie and Lady Gaga once played acoustic sets to a room of twenty — and loved it.</p>
+        <span class="hand">intimate is the whole point.</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="marquee">
+    <span>✦ music</span><span>✦ storytellers</span><span>✦ workshops</span><span>✦ wellness</span><span>✦ retreats &amp; camps</span>
+  </div>
+
+  <!-- ===================== FILTER BAR ===================== -->
+  <div class="toolbar">
+    <div class="wrap">
+      <div class="filters">
+        <button class="chip" data-filter="all" aria-pressed="true">Everyone <span class="n">24</span></button>
+        <button class="chip" data-filter="music" aria-pressed="false">Music <span class="n">9</span></button>
+        <button class="chip" data-filter="story" aria-pressed="false">Storytellers <span class="n">3</span></button>
+        <button class="chip" data-filter="workshop" aria-pressed="false">Workshops <span class="n">5</span></button>
+        <button class="chip" data-filter="wellness" aria-pressed="false">Wellness <span class="n">4</span></button>
+        <button class="chip" data-filter="retreat" aria-pressed="false">Retreats &amp; Camps <span class="n">3</span></button>
+        <span class="divider"></span>
+        <button class="chip ready" id="readyToggle" aria-pressed="false">★ ready to book</button>
+      </div>
+    </div>
+  </div>
+
+  <main class="wrap">
+
+    <!-- ===================== MUSIC ===================== -->
+    <section class="section" data-cat="music">
+      <div class="sec-head">
+        <h2>Music</h2>
+        <span class="count">— the room was made for it</span>
+      </div>
+      <div class="grid">
+
+        <article class="card card-item" data-cat="music" data-status="yes">
+          <span class="tape coral pin">keen — said yes!</span>
+          <div class="cat"><i data-lucide="music"></i> Music</div>
+          <h3 class="name">Gary Edwards</h3>
+          <p class="role">Guitar &amp; voice · brings a rotating cast</p>
+          <p class="note">Asked if he'd come and maybe bring a band member — "yeah, I'd love that." He likes the music nights as much as we do.</p>
+          <p class="next">→ pick a date, ask about a duo set</p>
+        </article>
+
+        <article class="card card-item" data-cat="music" data-status="yes">
+          <span class="tape coral pin">keen — said yes!</span>
+          <div class="cat"><i data-lucide="music"></i> Music</div>
+          <h3 class="name">John Cale</h3>
+          <p class="role">Fiddle · Hubbards (the old electrician)</p>
+          <p class="note">Said he'd love to play the gallery — and his wife would come along. We've room for the two of them for a weekend.</p>
+          <p class="next">→ offer a date, sort a place to stay</p>
+        </article>
+
+        <article class="card card-item" data-cat="music" data-status="here">
+          <span class="tape washi pin">played here</span>
+          <div class="cat"><i data-lucide="music"></i> Music</div>
+          <h3 class="name">Brian Ray</h3>
+          <p class="role">Guitar · has toured with the greats</p>
+          <p class="note">Left a few hundred in the box and was flabbergasted the room filled — "that should be yours, you're the artist." He draws a crowd.</p>
+          <p class="next">→ invite him back, warmly</p>
+        </article>
+
+        <article class="card card-item" data-cat="music" data-status="local">
+          <span class="tape kraft pin">local regular</span>
+          <div class="cat"><i data-lucide="music"></i> Music</div>
+          <h3 class="name">John Wayne</h3>
+          <p class="role">Tip-jar sets · plays all the time</p>
+          <p class="note">Always puts a jar out and plays. Easy, low-key and reliable — a good anytime booking when we want music with no fuss.</p>
+          <p class="next">→ standing invitation</p>
+        </article>
+
+        <article class="card card-item" data-cat="music" data-status="dream">
+          <span class="tape coral pin">dream big</span>
+          <div class="cat"><i data-lucide="music"></i> Music</div>
+          <h3 class="name">Jason Mraz</h3>
+          <p class="role">Singer-songwriter · the Oleander connection</p>
+          <p class="note">Flipped through the photo binder once and knew the boat on sight — "is that Oleander?" A long shot, but worth a postcard.</p>
+          <p class="next">→ send the Oleander print + an invite, just because</p>
+        </article>
+
+        <article class="card card-item" data-cat="music" data-status="asking">
+          <span class="tape kraft pin">worth asking</span>
+          <div class="cat"><i data-lucide="music"></i> Music</div>
+          <h3 class="name">Old Man Luedecke</h3>
+          <p class="role">Banjo &amp; folk · Chester-area</p>
+          <p class="note">Local-ish, and plays rooms exactly this size — coastal storytelling songs. A natural fit worth chasing through the Chester scene.</p>
+          <p class="next">→ reach out via the mainland music folks</p>
+        </article>
+
+        <article class="card card-item" data-cat="music" data-status="asking">
+          <span class="tape kraft pin">worth asking</span>
+          <div class="cat"><i data-lucide="music"></i> Music</div>
+          <h3 class="name">Rose Cousins</h3>
+          <p class="role">Singer-songwriter · Nova Scotia</p>
+          <p class="note">Hushed, intimate sets that would suit the acoustics everyone raves about. One for a special evening.</p>
+          <p class="next">→ check her touring dates</p>
+        </article>
+
+        <article class="card card-item" data-cat="music" data-status="idea">
+          <span class="tape washi pin">an idea</span>
+          <div class="cat"><i data-lucide="music"></i> Music</div>
+          <h3 class="name">A sea-shanty singalong</h3>
+          <p class="role">Group singalong · everyone welcome</p>
+          <p class="note">A crowd-and-chorus night — perfect for a packed room and a heavy box by the door. Nobody leaves without singing.</p>
+          <p class="next">→ find a shanty crew on the mainland</p>
+        </article>
+
+        <article class="card card-item" data-cat="music" data-status="asking">
+          <span class="tape kraft pin">worth asking</span>
+          <div class="cat"><i data-lucide="music"></i> Music</div>
+          <h3 class="name">A Celtic fiddle duo</h3>
+          <p class="role">Fiddle &amp; guitar · Cape Breton style</p>
+          <p class="note">Reels and slow airs in a room with perfect acoustics — the kind of thing the ferry-day crowd comes over for.</p>
+          <p class="next">→ ask around Mahone Bay</p>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ===================== STORYTELLERS ===================== -->
+    <section class="section" data-cat="story">
+      <div class="sec-head">
+        <h2>Storytellers &amp; Spoken Word</h2>
+        <span class="count">— folding chairs, $10 a head</span>
+      </div>
+      <div class="grid">
+
+        <article class="card card-item" data-cat="story" data-status="idea">
+          <span class="tape washi pin">the first dream</span>
+          <div class="cat"><i data-lucide="feather"></i> Storytellers</div>
+          <h3 class="name">A visiting storyteller</h3>
+          <p class="role">An evening of tales · presentation-style</p>
+          <p class="note">The original idea: put the folding chairs out, charge ten dollars ahead, and let a good storyteller hold the room for an hour.</p>
+          <p class="next">→ line up the very first one</p>
+        </article>
+
+        <article class="card card-item" data-cat="story" data-status="asking">
+          <span class="tape kraft pin">worth asking</span>
+          <div class="cat"><i data-lucide="feather"></i> Storytellers</div>
+          <h3 class="name">A poet's evening</h3>
+          <p class="role">Readings &amp; spoken word · candlelit</p>
+          <p class="note">Quiet, close and unhurried. The building was made for listening — this is the gentlest way to prove it.</p>
+          <p class="next">→ invite a Maritime poet</p>
+        </article>
+
+        <article class="card card-item" data-cat="story" data-status="signature">
+          <span class="tape coral pin">our own</span>
+          <div class="cat"><i data-lucide="feather"></i> Storytellers</div>
+          <h3 class="name">Stories behind the objects</h3>
+          <p class="role">An evening with Hilary · keeper of stories</p>
+          <p class="note">Every thing on the shelves has a tale. A slow winter-night series, told by the person who knows them all.</p>
+          <p class="next">→ plan a short winter run</p>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ===================== WORKSHOPS ===================== -->
+    <section class="section" data-cat="workshop">
+      <div class="sec-head">
+        <h2>Workshops &amp; Makers</h2>
+        <span class="count">— supplies waiting when you arrive</span>
+      </div>
+      <div class="grid">
+
+        <article class="card card-item" data-cat="workshop" data-status="warm">
+          <span class="tape washi pin">warm lead</span>
+          <div class="cat"><i data-lucide="palette"></i> Workshops</div>
+          <h3 class="name">Foraging walk &amp; workshop</h3>
+          <p class="role">Coastal foraging · already came to the school</p>
+          <p class="note">The forager who visited the school — "so much to forage here." A walk plus a workshop would go down a treat.</p>
+          <p class="next">→ book a spring or summer day</p>
+        </article>
+
+        <article class="card card-item" data-cat="workshop" data-status="idea">
+          <span class="tape washi pin">an idea</span>
+          <div class="cat"><i data-lucide="palette"></i> Workshops</div>
+          <h3 class="name">Basket weaving</h3>
+          <p class="role">Hands-on workshop · a visiting maker</p>
+          <p class="note">A specialist teaching basket weaving — exactly the makeshift, hands-on kind of afternoon this place is built for.</p>
+          <p class="next">→ find a weaver willing to travel</p>
+        </article>
+
+        <article class="card card-item" data-cat="workshop" data-status="signature">
+          <span class="tape coral pin">our own</span>
+          <div class="cat"><i data-lucide="palette"></i> Workshops</div>
+          <h3 class="name">The portrait party</h3>
+          <p class="role">Playful workshop · big reveal at the end</p>
+          <p class="note">Everyone paints the person across the table, then a big reveal all at once. Supplies here waiting for you. Absolutely hilarious.</p>
+          <p class="next">→ set a date, lay in cheap canvases</p>
+        </article>
+
+        <article class="card card-item" data-cat="workshop" data-status="asking">
+          <span class="tape kraft pin">worth asking</span>
+          <div class="cat"><i data-lucide="palette"></i> Workshops</div>
+          <h3 class="name">Watercolour the harbour</h3>
+          <p class="role">Plein-air · beginner-friendly</p>
+          <p class="note">Set up by the water on a ferry-day and paint the boats. An easy, low-cost add-on that anyone can join.</p>
+          <p class="next">→ find a teaching artist</p>
+        </article>
+
+        <article class="card card-item" data-cat="workshop" data-status="asking">
+          <span class="tape kraft pin">worth asking</span>
+          <div class="cat"><i data-lucide="palette"></i> Workshops</div>
+          <h3 class="name">Sea-glass &amp; driftwood jewelry</h3>
+          <p class="role">Maker workshop · beachcombed materials</p>
+          <p class="note">Make something from what washes up on the beach. Ties straight back into the shop shelves.</p>
+          <p class="next">→ pair with a local maker</p>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ===================== WELLNESS ===================== -->
+    <section class="section" data-cat="wellness">
+      <div class="sec-head">
+        <h2>Wellness &amp; Wellbeing</h2>
+        <span class="count">— the quiet side of the building</span>
+      </div>
+      <div class="grid">
+
+        <article class="card card-item" data-cat="wellness" data-status="signature">
+          <span class="tape coral pin">our own</span>
+          <div class="cat"><i data-lucide="sparkles"></i> Wellness</div>
+          <h3 class="name">Energy &amp; relaxation sessions</h3>
+          <p class="role">One-to-one · that special room upstairs</p>
+          <p class="note">An hour of deep relaxation in the room nobody else gets to see. "Incredible," says everyone who's been up there. Bring a notebook — we compare notes after.</p>
+          <p class="next">→ open a few slots on quiet days</p>
+        </article>
+
+        <article class="card card-item" data-cat="wellness" data-status="idea">
+          <span class="tape washi pin">an idea</span>
+          <div class="cat"><i data-lucide="sparkles"></i> Wellness</div>
+          <h3 class="name">Tarot readings</h3>
+          <p class="role">Ferry-day readings · pay what you like</p>
+          <p class="note">Short readings while the ferry crowd is ashore. A little magic, a little income, a nice corner of the room.</p>
+          <p class="next">→ find a reader; set up a corner</p>
+        </article>
+
+        <article class="card card-item" data-cat="wellness" data-status="idea">
+          <span class="tape washi pin">an idea</span>
+          <div class="cat"><i data-lucide="sparkles"></i> Wellness</div>
+          <h3 class="name">15-minute massage</h3>
+          <p class="role">Chair massage · ferry days</p>
+          <p class="note">Quick fifteen-minute sessions when the boat comes in — a way to cast a wider net on the busy days.</p>
+          <p class="next">→ ask a mainland RMT to visit</p>
+        </article>
+
+        <article class="card card-item" data-cat="wellness" data-status="idea">
+          <span class="tape kraft pin">on pause</span>
+          <div class="cat"><i data-lucide="sparkles"></i> Wellness</div>
+          <h3 class="name">Lucy's retreat</h3>
+          <p class="role">Retreat leader · did one, bowed out</p>
+          <p class="note">Lucy ran a retreat and says she won't do another — but the retreat model itself proved to be gold.</p>
+          <p class="next">→ thank Lucy; find the next leader</p>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ===================== RETREATS & CAMPS ===================== -->
+    <section class="section" data-cat="retreat">
+      <div class="sec-head">
+        <h2>Retreats &amp; Camps</h2>
+        <span class="count">— the island IS the draw</span>
+      </div>
+      <div class="grid">
+
+        <article class="card card-item" data-cat="retreat" data-status="warm">
+          <span class="tape washi pin">warm lead</span>
+          <div class="cat"><i data-lucide="tent"></i> Retreats</div>
+          <h3 class="name">Kids nature camp</h3>
+          <p class="role">Summer day camp · with Joan from Chester</p>
+          <p class="note">Joan always wanted to run a kids camp — "we can run it together." All you need is a patch of grass; they bring their own everything.</p>
+          <p class="next">→ scope a summer week with Joan</p>
+        </article>
+
+        <article class="card card-item" data-cat="retreat" data-status="idea">
+          <span class="tape washi pin">the vision</span>
+          <div class="cat"><i data-lucide="tent"></i> Retreats</div>
+          <h3 class="name">Weekend destination retreat</h3>
+          <p class="role">Multi-day · draws from across the country</p>
+          <p class="note">Retreats fill because the island itself is the draw — people travel for a destination, then come to unplug. Guaranteed room.</p>
+          <p class="next">→ design a two-night template</p>
+        </article>
+
+        <article class="card card-item" data-cat="retreat" data-status="dream">
+          <span class="tape coral pin">dream big</span>
+          <div class="cat"><i data-lucide="tent"></i> Retreats</div>
+          <h3 class="name">An artist's residency</h3>
+          <p class="role">Come make a whole album · stay a while</p>
+          <p class="note">Peter Gabriel turned a village house into a studio-retreat; artists stayed for months. "This is where I get away from it all." The quiet's already here.</p>
+          <p class="next">→ dream up a room over the space facing David's</p>
+        </article>
+
+      </div>
+    </section>
+
+    <p class="empty" id="empty">nothing pinned up here yet — try another filter.</p>
+
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="footer">
+    <div class="wrap">
+      <div class="eyebrow">how we like to host</div>
+      <h2>No ticket booth. Just a box by the door.</h2>
+      <div class="host">
+        <div class="item">
+          <i data-lucide="hand-coins"></i>
+          <p>Pay what you can — the artist keeps <em>every coin</em> in the box. We provide the venue, the warmth and the crowd.</p>
+        </div>
+        <div class="item">
+          <i data-lucide="armchair"></i>
+          <p>Room for a <em>hundred</em> on folding chairs, if we build out toward David's. Storytellers, movie nights, a full house.</p>
+        </div>
+        <div class="item">
+          <i data-lucide="waves"></i>
+          <p>The acoustics? <em>Everyone</em> who plays here swears they're perfect — all that stuff on the shelves softens the sound.</p>
+        </div>
+      </div>
+      <div class="made">made with island magic</div>
+    </div>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+
+    const chips = [...document.querySelectorAll('.chip[data-filter]')];
+    const cards = [...document.querySelectorAll('.card-item')];
+    const sections = [...document.querySelectorAll('.section')];
+    const readyBtn = document.getElementById('readyToggle');
+    const empty = document.getElementById('empty');
+    const readySet = new Set(['yes', 'warm', 'here', 'local', 'signature']);
+    let cat = 'all', readyOnly = false;
+
+    function apply() {
+      let visible = 0;
+      cards.forEach(c => {
+        const okCat = cat === 'all' || c.dataset.cat === cat;
+        const okReady = !readyOnly || readySet.has(c.dataset.status);
+        const show = okCat && okReady;
+        c.style.display = show ? '' : 'none';
+        if (show) visible++;
+      });
+      sections.forEach(s => {
+        const any = [...s.querySelectorAll('.card-item')].some(c => c.style.display !== 'none');
+        s.style.display = any ? '' : 'none';
+      });
+      empty.style.display = visible === 0 ? 'block' : 'none';
+    }
+
+    chips.forEach(ch => ch.addEventListener('click', () => {
+      chips.forEach(x => x.setAttribute('aria-pressed', 'false'));
+      ch.setAttribute('aria-pressed', 'true');
+      cat = ch.dataset.filter;
+      apply();
+    }));
+
+    readyBtn.addEventListener('click', () => {
+      readyOnly = !readyOnly;
+      readyBtn.setAttribute('aria-pressed', String(readyOnly));
+      apply();
+    });
+  </script>
+
+</body>
+</html>

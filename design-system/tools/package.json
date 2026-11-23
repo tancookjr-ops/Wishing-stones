@@ -1,0 +1,15 @@
+{
+  "name": "ds-tools",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "node check.mjs",
+    "build": "node build.mjs",
+    "preview": "node preview.mjs",
+    "serve": "node serve.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "playwright": "^1.48.0"
+  }
+}

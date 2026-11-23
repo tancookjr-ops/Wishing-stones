@@ -1,0 +1,66 @@
+// Phase 4.6 · 5.2 · 5.3 · KNOWLEDGE-UPLOAD.md, SCREEN-MAP.md, EXCLUDE.txt
+// ARGS: {cleared:[{path,why}]}  — secret-risk hits reviewed and cleared (prose / regex / placeholder)
+const P=await loadP();const inv=await loadInv();const AI=P.target!=='code',CODE=P.target!=='ai';
+const by=new Map(inv.map(r=>[r.path,r]));const cleared=new Map((ARGS.cleared||[]).map(c=>[c.path,c.why]));
+const secret=new Set(inv.filter(r=>r.secret&&!cleared.has(r.path)).map(r=>r.path));
+const LEGAL=/articles|\bmsa\b|docusign|contract|agreement|invoice|statement|\bbank|\btax|financ|payroll|passport|\.zone$/i;
+const never=new Set(secret);for(const r of inv){if(r.class==='compiler-output')never.add(r.path);if(r.path.startsWith('uploads/')&&LEGAL.test(r.path))never.add(r.path);}
+const sum=a=>a.reduce((s,r)=>s+(r.bytes||0),0);
+const out=[];
+if(AI){
+ const T1=[],T2=[],inT=new Set();const add=(arr,r)=>{if(r&&!inT.has(r.path)&&!never.has(r.path)){arr.push(r);inT.add(r.path)}};
+ const mig=async rel=>{const p=OUT+'/'+rel;const s=await size(p);return s==null?null:{path:p,bytes:s}};
+ for(const r of inv)if(['agent-law','continuity','tokens'].includes(r.class))add(T1,r);
+ add(T1,by.get('readme.md'));add(T1,by.get('README.md'));
+ for(const m of (P.invariants||'').matchAll(/`([^`\s]+\.[A-Za-z0-9]+)`/g))add(T1,by.get(m[1]));
+ for(const f of ['claude-ai/ARTIFACT-RULES.md','claude-ai/ds-components.js.txt','claude-ai/tokens.inline.css','claude-ai/'+P.starter,'START-HERE.md'])add(T1,await mig(f));
+ for(const r of inv)if(r.class==='reference-doc'||/^specs\/.*\.(md|json)$/.test(r.path)||(/(\.d\.ts|\.prompt\.md)$/.test(r.path)&&!/^(uploads|export|exports|scratch|scraps|locker)\//.test(r.path)))add(T2,r);
+ add(T2,await mig('claude-ai/brand-reference.html'));
+ const BUDGET=10*1048576,moved=[];T2.sort((a,b)=>b.bytes-a.bytes);
+ while(sum(T1)+sum(T2)>BUDGET&&T2.length)moved.push(T2.shift());
+ const T3=inv.filter(r=>!inT.has(r.path)&&!never.has(r.path)||moved.includes(r));
+ const list=a=>a.slice().sort((x,y)=>x.path.localeCompare(y.path)).map(r=>`- \`${r.path}\` — ${fmt(r.bytes)}`).join('\n');
+ const grp={};for(const r of T3){const s=r.path.split('/');const k=s.length>1?s[0]+'/':'(root)';(grp[k]=grp[k]||[]).push(r);}
+ let t3='';for(const k of Object.keys(grp).sort()){const a=grp[k];t3+=a.length<=40?`\n**${k}** (${a.length})\n${list(a)}\n`:`- **${k}** — ${a.length} files, ${fmt(sum(a))}\n`;}
+ const md=`# KNOWLEDGE-UPLOAD — Claude Project "${P.short}" · ${P.date}
+
+Derived from \`${OUT}/INVENTORY.json\` by \`${KIT}/scripts/41-knowledge\`. Do not hand-edit.
+
+${DL(P.closes)}
+
+- Budget for the tier cut: **10 MB** (T1 + T2). Moved T2 → T3 to fit: **${moved.length}**${moved.length?' — '+moved.map(r=>'`'+r.path+'`').join(', '):''}.
+- **T1: ${T1.length} files, ${fmt(sum(T1))}** · **T2: ${T2.length} files, ${fmt(sum(T2))}** · T3 (not uploaded): ${T3.length} · Never upload: ${never.size}.
+- \`ds-components.js.txt\` is "ds-components.js" in every doc; it is \`.txt\` only so the design tool's compiler leaves it alone. Upload it as is.
+- The instructions box (not knowledge) takes the body of \`${OUT}/claude-ai/PROJECT-INSTRUCTIONS.md\`.
+
+## Secret-scan hits cleared on review (uploaded)
+${cleared.size?[...cleared].map(([p,w])=>`- \`${p}\` — ${w}`).join('\n'):'None.'}
+
+## T1 — always upload (${T1.length} files, ${fmt(sum(T1))})
+${list(T1)}
+
+## T2 — upload next (${T2.length} files, ${fmt(sum(T2))})
+${list(T2)||'None.'}
+
+## Never upload (${never.size})
+Secret-risk (${secret.size}), uploads/ legal and financial documents, compiler output.
+${[...never].sort().map(p=>'- `'+p+'`').join('\n')||'None.'}
+
+## T3 — on demand, NOT uploaded (${T3.length})
+Ask the owner for a file by its path.
+${t3||'None.'}
+`;
+ await saveFile(OUT+'/claude-ai/KNOWLEDGE-UPLOAD.md',md);
+ out.push(`KNOWLEDGE-UPLOAD: T1 ${T1.length} (${fmt(sum(T1))}) · T2 ${T2.length} (${fmt(sum(T2))}) · moved ${moved.length} · T3 ${T3.length} · never ${never.size}`);}
+if(CODE){
+ const pub=P.repoPrivate!==true;
+ const pat=p=>'/'+p.replace(/([*?\[\]!#\\])/g,'\\$1');
+ const ex=[...secret].sort().map(pat);if(pub)ex.push('/uploads/');
+ await saveFile(OUT+'/claude-code/EXCLUDE.txt',`# Derived ${P.date} from ${OUT}/INVENTORY.json. Repo ${P.repo||'(none)'} is ${P.repoPrivate===true?'PRIVATE: secret-risk paths only':P.repoPrivate===false?'PUBLIC: secret-risk paths + uploads/':'of UNKNOWN visibility — treated as public: secret-risk paths + uploads/'}.\n${cleared.size?'# Cleared on review (kept): '+[...cleared.keys()].join(', ')+'\n':''}${ex.join('\n')}\n`);
+ const kits=[...new Set(inv.filter(r=>/^ui_kits\/[^/]+\//.test(r.path)).map(r=>r.path.split('/')[1]))].sort();
+ let sm=`# SCREEN-MAP — ${P.short} · ${P.date}\n\n${DL(P.closes)}\n\n${kits.length} UI kits. Preview each from \`tools/\`.\n`;
+ for(const k of kits){let para='(no AGENTS.md)';const a=await rd(`ui_kits/${k}/AGENTS.md`);if(a)para=a.replace(/^#.*\n/,'').trim().split(/\n\s*\n/)[0].replace(/\n/g,' ');
+  sm+=`\n## ${k}\n${para}\n\n${by.has(`ui_kits/${k}/index.html`)?'```\nnpm run preview -- ui_kits/'+k+'/index.html\n```':'_No index.html in this kit._'}\n`;}
+ await saveFile(OUT+'/claude-code/SCREEN-MAP.md',sm);
+ out.push(`EXCLUDE ${ex.length} patterns (${P.repoPrivate===true?'private':'treated as public'}) · SCREEN-MAP ${kits.length} kits`);}
+log(out.join('\n')||'nothing to do for this target');

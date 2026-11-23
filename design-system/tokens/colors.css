@@ -1,0 +1,94 @@
+/* Wishing Stones — Color tokens
+ * A sun-bleached North Atlantic coastal palette: warm sand paper, weathered driftwood,
+ * sea glass, deep tidal water, and a couple of quirky buoy-bright pops.
+ */
+:root {
+  /* ---- Base palette ---- */
+  /* Papers & sand (surfaces) */
+  --sand-50:  #FBF7EE;   /* lightest paper */
+  --sand-100: #F6F0E1;   /* default page paper */
+  --sand-200: #EDE3CE;   /* raised paper / card back */
+  --sand-300: #E0D2B5;   /* sandy edge */
+
+  /* Driftwood (neutrals / weathered wood) */
+  --driftwood-300: #C4B49C;
+  --driftwood-500: #9C8A72;
+  --driftwood-700: #6E5F4C;
+  --driftwood-900: #3B3226;
+
+  /* Deep sea (primary ink + brand dark) */
+  --sea-900: #1C3A3D;    /* near-black text, deepest tidal green-navy */
+  --sea-700: #2E5A5C;
+  --sea-500: #3E7C7B;    /* mid tidal */
+
+  /* Sea glass (soft brand green) */
+  --seaglass-200: #CBE3D8;
+  --seaglass-400: #8FC4B0;
+  --seaglass-600: #5E9B87;
+
+  /* Sky & tide (cool blues) */
+  --tide-300: #A9CBD6;
+  --tide-500: #6FA3B4;
+  --tide-700: #40707F;
+
+  /* ---- Quirky pops (buoys, floats, painted signs) ---- */
+  --coral-500: #E4674A;   /* buoy red-orange — primary accent */
+  --coral-600: #C9502F;
+  --sunwash-400: #EBBE5E; /* beach sun yellow */
+  --rosehip-500: #C65A6E; /* wild rose pink */
+
+  /* ---- Cozy interior (the rooms: hearth, lamplight, painted floors) ---- */
+  /* Sampled from inside the building — warmer & deeper than the sun-bleached
+     exterior palette. These carry the "come wander & stay a while" feeling. */
+  --wall-butter:     #EFE1C0;   /* warm beadboard cream (museum walls) */
+  --wall-rose:       #C98D93;   /* dusty mauve-rose painted wall */
+  --wall-rose-soft:  #EBCDCE;   /* washed rose wash */
+  --floor-sage:      #A7BD9C;   /* the green painted floor */
+  --floor-sage-soft: #CFDBC5;   /* washed sage */
+  --lamp-amber:      #E7B266;   /* lamplight & string-light glow */
+  --hearth-900:      #241C15;   /* warm near-black — the wood-stove room */
+  --hearth-800:      #382A1F;
+
+  /* ---- The painted facade (sampled from the building itself) ---- */
+  /* Three little buildings mashed together: peach shingles, periwinkle boards,
+     and the sea-green crate that holds the sign. */
+  --facade-peach:      #F2C795;
+  --facade-peach-soft: #F7DDBB;
+  --facade-peach-deep: #E2AC70;
+  --facade-blue:       #7E9CD8;
+  --facade-blue-soft:  #B9CAEA;
+  --facade-blue-deep:  #5F7FC0;
+  --facade-green:      #C4D9B4;   /* the sign's crate green */
+  --facade-green-deep: #9DB88B;
+  --board-grey:        #A79E8E;   /* the weathered sign board */
+
+  /* ---- Semantic aliases ---- */
+  --surface-page:     var(--sand-100);
+  --surface-raised:   var(--sand-50);
+  --surface-card:     var(--sand-50);
+  --surface-sunk:     var(--sand-200);
+  --surface-ink:      var(--sea-900);   /* dark sections (cool) */
+  --surface-butter:   var(--wall-butter);
+  --surface-hearth:   var(--hearth-900); /* warm cozy dark sections */
+  --text-on-hearth:      #F1E4C8;
+  --text-on-hearth-muted:#CBB794;
+
+  --text-strong:      var(--sea-900);
+  --text-body:        var(--driftwood-900);
+  --text-muted:       var(--driftwood-700);
+  --text-faint:       var(--driftwood-500);
+  --text-on-ink:      var(--sand-100);
+  --text-on-ink-muted:#B9C7BC;
+
+  --border-hairline:  #DED0B4;          /* subtle sand line */
+  --border-wood:      var(--driftwood-500);
+  --border-strong:    var(--sea-900);
+
+  --accent:           var(--coral-500);
+  --accent-hover:     var(--coral-600);
+  --accent-soft:      #F6D9CF;
+  --brand-green:      var(--seaglass-600);
+  --brand-sun:        var(--sunwash-400);
+
+  --focus-ring:       var(--tide-700);
+}

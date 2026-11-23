@@ -1,0 +1,38 @@
+<!-- @dsCard group="Components" viewport="700x300" name="Buttons & IconButtons" subtitle="Coastal pill buttons + round icon buttons" -->
+<!DOCTYPE html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"></script>
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>body{margin:0;background:var(--sand-100);font-family:var(--font-body)}
+#root{padding:26px}
+.grp{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
+.lbl{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--text-faint);width:100%;margin-bottom:2px}
+</style></head>
+<body>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#E4674A"/><text x="50" y="62" font-size="34" text-anchor="middle" fill="#1A1A1A" font-family="serif">WS</text></svg></template><div id="root"></div>
+<script type="text/babel">
+const { Button, IconButton } = window.WishingStonesDesignSystem_953619;
+function Ic({name,size=20}){const r=React.useRef();React.useEffect(()=>{if(r.current){r.current.innerHTML=`<i data-lucide="${name}"></i>`;lucide.createIcons({attrs:{width:size,height:size}});}});return <span ref={r} style={{display:'inline-flex'}}/>}
+function Demo(){return (<div>
+  <div class="grp"><span class="lbl">Variants</span>
+    <Button variant="primary">Plan your visit</Button>
+    <Button variant="secondary">See the gallery</Button>
+    <Button variant="outline">Say hello</Button>
+    <Button variant="ghost">More</Button>
+  </div>
+  <div class="grp"><span class="lbl">Sizes</span>
+    <Button size="sm">Small</Button>
+    <Button size="md">Medium</Button>
+    <Button size="lg">Large</Button>
+    <Button variant="primary"><Ic name="anchor"/> With icon</Button>
+  </div>
+  <div class="grp"><span class="lbl">Icon buttons</span>
+    <IconButton variant="soft"><Ic name="menu"/></IconButton>
+    <IconButton variant="solid"><Ic name="search"/></IconButton>
+    <IconButton variant="accent"><Ic name="shopping-bag"/></IconButton>
+  </div>
+</div>);}
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo/>);
+</script></body></html>

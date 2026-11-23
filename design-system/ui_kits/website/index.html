@@ -1,0 +1,65 @@
+<!-- @dsCard group="Website" viewport="1280x760" name="Website — Home" subtitle="Interactive: Home · Visit · Rooms · The Map · Shop" -->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wishing Stones</title>
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"></script>
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>
+  html{background:#EFE1C0}
+  body{
+    margin:0;color:var(--text-body);
+    background-color:#F0E4C6;
+    background-image:
+      radial-gradient(1150px 640px at 82% -6%, rgba(231,178,102,0.22), transparent 60%),
+      radial-gradient(880px 520px at 4% 8%, rgba(207,219,197,0.26), transparent 62%);
+    background-attachment:fixed;
+  }
+  /* Warm paper tooth over the whole page — makes light surfaces feel like
+     lamplit paper rather than flat web canvas. Subtle. */
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:9998;
+    opacity:0.32;mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+  }
+  *{box-sizing:border-box}
+  button{font-family:inherit}
+  ol,ul{margin:0}
+  /* Vertical beadboard, like the painted plank walls inside the shop */
+  .beadboard{background-image:repeating-linear-gradient(90deg, rgba(110,95,76,0.055) 0 1px, transparent 1px 27px);}
+  /* Staggered cedar shingle courses, like the building's outside walls */
+  .shingle-wall{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='112' height='96'%3E%3Cg stroke='%236E5F4C' stroke-opacity='0.26' stroke-width='1'%3E%3Cpath d='M0 47.5h112M0 95.5h112'/%3E%3Cpath d='M0.5 0v47M56.5 0v47M28.5 48v47M84.5 48v47'/%3E%3C/g%3E%3Cg fill='%236E5F4C'%3E%3Crect width='56' height='47' fill-opacity='0.05'/%3E%3Crect x='56' width='56' height='47' fill-opacity='0.016'/%3E%3Crect x='28' y='48' width='56' height='47' fill-opacity='0.04'/%3E%3Crect x='84' y='48' width='28' height='47' fill-opacity='0.055'/%3E%3Crect y='48' width='28' height='47' fill-opacity='0.02'/%3E%3C/g%3E%3C/svg%3E");background-size:112px 96px;}
+  /* Photo-grade wood grain for boards, crates and the map's frame */
+  .wood-grain{position:relative;}
+  .wood-grain::before{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;opacity:0.32;mix-blend-mode:multiply;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='220'%3E%3Cfilter id='w'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.011 0.13' numOctaves='4' seed='11' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.36 0 0 0 0 0.30 0 0 0 0 0.22 0.9 0.9 0.9 0 0'/%3E%3C/filter%3E%3Crect width='420' height='220' filter='url(%23w)'/%3E%3C/svg%3E");background-size:420px 220px;}
+  /* A thin driftwood "shelf" edge to sit rooms on */
+  .shelf-top{box-shadow:inset 0 5px 0 rgba(110,95,76,0.18), inset 0 6px 0 rgba(255,255,255,0.35);}
+</style></head>
+<body>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#E4674A"/><text x="50" y="62" font-size="34" text-anchor="middle" fill="#1A1A1A" font-family="serif">WS</text></svg></template>
+<div id="root"></div>
+<script src="photos.js"></script>
+<script src="image-slot.js"></script>
+<script type="text/babel" src="shared.jsx"></script>
+<script type="text/babel" src="Nav.jsx"></script>
+<script type="text/babel" src="Home.jsx"></script>
+<script type="text/babel" src="Visit.jsx"></script>
+<script type="text/babel" src="Rooms.jsx"></script>
+<script type="text/babel" src="Map.jsx"></script>
+<script type="text/babel" src="Shop.jsx"></script>
+<script type="text/babel">
+function App(){
+  const [page,setPage]=React.useState("Home");
+  const go=(p)=>{setPage(p);window.scrollTo({top:0});};
+  const Screen={Home,Visit,Rooms,Map:CeilingMap,Shop}[page];
+  return (<div>
+    <Nav page={page} go={go} />
+    <main><Screen go={go} /></main>
+    <Footer go={go} />
+  </div>);
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body></html>

@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wishing Stones — The Door &amp; The Box</title>
+<link rel="stylesheet" href="styles.css">
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--surface-page);
+    color: var(--text-body);
+    font-family: var(--font-body);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: var(--maxw-content); margin: 0 auto; padding: 0 var(--gutter); }
+  .wrap-wide { max-width: var(--maxw-wide); margin: 0 auto; padding: 0 var(--gutter); }
+
+  .eyebrow {
+    font-family: var(--font-body); font-size: var(--fs-caption); text-transform: uppercase;
+    letter-spacing: var(--ls-label); color: var(--brand-green); margin: 0 0 14px;
+  }
+  .hand-accent { font-family: var(--font-hand); font-weight: 600; color: var(--accent); }
+
+  /* ---------- HERO ---------- */
+  .hero { text-align: center; padding: var(--space-9) 0 var(--space-7); position: relative; }
+  .kicker { font-family: var(--font-hand); font-weight: 600; color: var(--accent); font-size: 2rem; transform: rotate(-2deg); margin-bottom: 6px; }
+  h1.title {
+    font-family: var(--font-display); font-weight: 800; font-size: var(--fs-display);
+    line-height: var(--lh-tight); letter-spacing: var(--ls-tight); color: var(--sea-900); margin: 0 0 20px;
+  }
+  h1.title em { font-style: normal; color: var(--brand-green); }
+  .lead { font-size: var(--fs-lead); line-height: 1.55; color: var(--text-body); max-width: 62ch; margin: 0 auto var(--space-7); }
+  .lead strong { color: var(--sea-900); font-weight: 700; }
+
+  .anchor-stats { display: flex; flex-wrap: wrap; gap: var(--space-4); justify-content: center; }
+  .astat { background: var(--surface-card); border: 1px solid var(--border-hairline); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: 18px 26px; min-width: 190px; }
+  .astat b { display: block; font-family: var(--font-display); font-weight: 800; font-size: 2.4rem; line-height: 1; color: var(--sea-900); }
+  .astat b .arrow { color: var(--accent); }
+  .astat span { display: block; font-size: var(--fs-caption); color: var(--text-muted); margin-top: 8px; line-height: 1.4; }
+
+  /* ---------- SECTION SCAFFOLD ---------- */
+  section { padding: var(--space-8) 0; }
+  .sec-lead { max-width: 64ch; }
+  h2.sec {
+    font-family: var(--font-display); font-weight: 800; font-size: var(--fs-h2);
+    color: var(--sea-900); letter-spacing: -0.01em; line-height: var(--lh-snug); margin: 0 0 16px;
+  }
+  h2.sec .n { font-family: var(--font-hand); font-weight: 700; color: var(--driftwood-300); font-size: 0.8em; margin-right: 12px; }
+  .sec-intro { font-size: var(--fs-lead); line-height: 1.5; color: var(--text-muted); margin: 0 0 var(--space-6); max-width: 60ch; }
+  .sec-intro strong { color: var(--sea-900); }
+
+  .tape {
+    display: inline-block; font-family: var(--font-hand); font-weight: 700; font-size: 1.05rem; line-height: 1;
+    padding: 6px 16px; box-shadow: var(--shadow-prop);
+    clip-path: polygon(2% 8%, 12% 0, 30% 6%, 52% 0, 74% 7%, 92% 0, 100% 10%, 98% 88%, 88% 100%, 66% 93%, 44% 100%, 22% 92%, 6% 100%, 0 86%);
+  }
+  .tape.kraft { background: #E8D9B8; color: var(--driftwood-900); }
+  .tape.washi { background: var(--seaglass-200); color: var(--sea-900); }
+  .tape.coral { background: var(--accent-soft); color: var(--coral-600); }
+  .tape.sun { background: #F6E4B4; color: var(--driftwood-900); }
+
+  /* ---------- TWO PROMISES ---------- */
+  .promises { background: var(--sand-200); border-top: 1px solid var(--border-hairline); border-bottom: 1px solid var(--border-hairline); }
+  .promise-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-6); }
+  .promise { display: flex; gap: 18px; align-items: flex-start; }
+  .promise .ic { flex: none; width: 52px; height: 52px; border-radius: var(--radius-md); background: var(--surface-card); border: 1px solid var(--border-hairline); display: grid; place-items: center; box-shadow: var(--shadow-sm); }
+  .promise .ic svg { width: 26px; height: 26px; stroke: var(--brand-green); }
+  .promise h3 { font-family: var(--font-display); font-weight: 700; font-size: var(--fs-h4); color: var(--sea-900); margin: 2px 0 6px; }
+  .promise p { margin: 0; font-size: var(--fs-small); color: var(--text-body); line-height: 1.55; }
+  .promise-head { text-align: center; margin-bottom: var(--space-6); }
+  .promise-head p { font-size: var(--fs-small); color: var(--text-muted); font-style: italic; margin: 6px 0 0; }
+
+  /* ---------- REVENUE STACK ---------- */
+  .stack { display: flex; flex-direction: column-reverse; gap: 8px; margin-top: var(--space-5); }
+  .band { position: relative; border-radius: var(--radius-md); padding: 16px 22px; display: flex; align-items: center; gap: 16px; box-shadow: var(--shadow-sm); border: 1px solid rgba(59,50,38,0.06); }
+  .band .bic { flex: none; width: 34px; height: 34px; display: grid; place-items: center; }
+  .band .bic svg { width: 22px; height: 22px; }
+  .band .btext { flex: 1; }
+  .band .btext b { font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; color: var(--sea-900); display: block; }
+  .band .btext span { font-size: var(--fs-small); color: var(--text-muted); }
+  .band .btag { font-family: var(--font-hand); font-weight: 600; font-size: 1.15rem; white-space: nowrap; }
+  /* foundation layers */
+  .band.f1 { background: var(--sea-900); border-color: var(--sea-900); }
+  .band.f1 .btext b { color: var(--sand-50); } .band.f1 .btext span { color: var(--text-on-ink-muted); } .band.f1 .bic svg { stroke: var(--brand-sun); } .band.f1 .btag { color: var(--brand-sun); }
+  .band.f2 { background: var(--sea-700); border-color: var(--sea-700); }
+  .band.f2 .btext b { color: var(--sand-50); } .band.f2 .btext span { color: #C7D6CF; } .band.f2 .bic svg { stroke: var(--seaglass-400); } .band.f2 .btag { color: var(--seaglass-400); }
+  /* margin layers */
+  .band.m1 { background: var(--seaglass-200); } .band.m1 .bic svg { stroke: var(--sea-700); } .band.m1 .btag { color: var(--sea-700); }
+  .band.m2 { background: #DCEBE1; } .band.m2 .bic svg { stroke: var(--seaglass-600); } .band.m2 .btag { color: var(--seaglass-600); }
+  .band.m3 { background: var(--accent-soft); } .band.m3 .bic svg { stroke: var(--coral-600); } .band.m3 .btag { color: var(--coral-600); }
+  .band.m4 { background: #F6E4B4; } .band.m4 .bic svg { stroke: #A9832B; } .band.m4 .btag { color: #A9832B; }
+
+  .stack-notes { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-5); margin-top: var(--space-5); }
+  .stack-note { border-left: 3px solid var(--border-wood); padding-left: 16px; }
+  .stack-note.profit { border-left-color: var(--accent); }
+  .stack-note b { font-family: var(--font-display); font-weight: 700; color: var(--sea-900); display: block; margin-bottom: 4px; }
+  .stack-note.profit b { color: var(--coral-600); }
+  .stack-note p { margin: 0; font-size: var(--fs-small); color: var(--text-muted); }
+
+  /* ---------- TIERS ---------- */
+  .tiers { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-5); margin-top: var(--space-6); align-items: stretch; }
+  .tier { background: var(--surface-card); border: 1px solid var(--border-hairline); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); padding: var(--space-6) var(--space-5) var(--space-5); display: flex; flex-direction: column; position: relative; }
+  .tier.feature { border: 2px solid var(--accent); box-shadow: var(--shadow-lift); }
+  .tier .flag { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); }
+  .tier .tname { font-family: var(--font-display); font-weight: 700; font-size: var(--fs-h4); color: var(--sea-900); margin: 0 0 4px; }
+  .tier .tsub { font-family: var(--font-body); font-style: italic; font-size: var(--fs-small); color: var(--text-muted); margin: 0 0 16px; min-height: 2.6em; }
+  .tier .price { font-family: var(--font-display); font-weight: 800; font-size: 2.6rem; line-height: 1; color: var(--sea-900); margin-bottom: 4px; }
+  .tier .price small { font-size: 1rem; font-weight: 500; color: var(--text-faint); }
+  .tier .price .from { font-size: 1rem; font-weight: 500; color: var(--text-faint); display: block; margin-bottom: 2px; }
+  .tier ul { list-style: none; margin: 18px 0 0; padding: 18px 0 0; border-top: 1px solid var(--border-hairline); display: flex; flex-direction: column; gap: 10px; }
+  .tier li { display: flex; gap: 10px; align-items: flex-start; font-size: var(--fs-small); color: var(--text-body); }
+  .tier li svg { flex: none; width: 17px; height: 17px; stroke: var(--brand-green); margin-top: 3px; }
+  .tier.feature li svg { stroke: var(--accent); }
+
+  /* ---------- CLOCKS / FERRY ---------- */
+  .clocks { background: var(--surface-ink); color: var(--text-on-ink); }
+  .clocks .eyebrow { color: var(--brand-sun); }
+  .clocks h2.sec { color: var(--sand-50); }
+  .clocks .sec-intro { color: var(--text-on-ink-muted); }
+  .clocks .sec-intro strong { color: var(--sand-50); }
+
+  .ferry { margin: var(--space-6) 0 var(--space-7); background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12); border-radius: var(--radius-lg); padding: var(--space-6) var(--space-6) var(--space-5); }
+  .ferry-line { position: relative; height: 3px; background: rgba(255,255,255,0.18); border-radius: 2px; margin: 44px 2% 0; }
+  .ferry-fill { position: absolute; top: 0; bottom: 0; border-radius: 2px; }
+  .ferry-fill.day { left: 0; right: 46%; background: var(--brand-sun); }
+  .ferry-fill.eve { left: 54%; right: 0; background: var(--coral-500); }
+  .stop { position: absolute; top: 50%; transform: translate(-50%, -50%); text-align: center; }
+  .stop .dot { width: 15px; height: 15px; border-radius: 50%; background: var(--sand-50); border: 3px solid var(--sea-900); margin: 0 auto; }
+  .stop .t { position: absolute; top: -34px; left: 50%; transform: translateX(-50%); font-family: var(--font-display); font-weight: 700; font-size: 1rem; color: var(--sand-50); white-space: nowrap; }
+  .stop .l { position: absolute; top: 22px; left: 50%; transform: translateX(-50%); font-size: 12px; color: var(--text-on-ink-muted); white-space: nowrap; }
+  .ferry-bands { display: flex; gap: 12px; margin-top: 74px; }
+  .fband { flex: 1; border-radius: var(--radius-md); padding: 14px 18px; }
+  .fband.day { background: rgba(235,190,94,0.16); border: 1px solid rgba(235,190,94,0.4); }
+  .fband.eve { background: rgba(228,103,74,0.16); border: 1px solid rgba(228,103,74,0.4); }
+  .fband .lab { font-family: var(--font-hand); font-weight: 700; font-size: 1.2rem; margin-bottom: 4px; }
+  .fband.day .lab { color: var(--brand-sun); } .fband.eve .lab { color: #F4A48C; }
+  .fband p { margin: 0; font-size: var(--fs-small); color: var(--text-on-ink); line-height: 1.5; }
+
+  .clock-cols { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-6); }
+  .clock-col h3 { font-family: var(--font-display); font-weight: 700; font-size: var(--fs-h4); margin: 0 0 4px; display: flex; align-items: center; gap: 10px; }
+  .clock-col h3 svg { width: 22px; height: 22px; }
+  .clock-col.day h3 { color: var(--brand-sun); } .clock-col.day h3 svg { stroke: var(--brand-sun); }
+  .clock-col.eve h3 { color: #F4A48C; } .clock-col.eve h3 svg { stroke: #F4A48C; }
+  .clock-col > p.k { font-size: var(--fs-small); color: var(--text-on-ink-muted); margin: 0 0 16px; font-style: italic; }
+  .menu { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+  .menu li { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 11px 0; border-bottom: 1px dotted rgba(255,255,255,0.16); }
+  .menu li:last-child { border-bottom: 0; }
+  .menu .item { color: var(--sand-50); font-size: var(--fs-small); }
+  .menu .item em { display: block; font-style: normal; font-size: 12px; color: var(--text-on-ink-muted); margin-top: 1px; }
+  .menu .amt { font-family: var(--font-display); font-weight: 700; color: var(--sand-50); white-space: nowrap; }
+  .menu .amt.day { color: var(--brand-sun); } .menu .amt.eve { color: #F4A48C; }
+
+  /* ---------- MONEY MOMENTS ---------- */
+  .moments { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-5); margin-top: var(--space-6); }
+  .moment { background: var(--surface-card); border: 1px solid var(--border-hairline); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: var(--space-5); position: relative; overflow: hidden; }
+  .moment::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 5px; background: var(--accent); }
+  .moment:nth-child(2)::before { background: var(--brand-green); }
+  .moment:nth-child(3)::before { background: var(--brand-sun); }
+  .moment:nth-child(4)::before { background: var(--tide-500); }
+  .moment .mhead { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+  .moment .mic { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; flex: none; }
+  .moment:nth-child(1) .mic { background: var(--accent-soft); } .moment:nth-child(1) .mic svg { stroke: var(--coral-600); }
+  .moment:nth-child(2) .mic { background: var(--seaglass-200); } .moment:nth-child(2) .mic svg { stroke: var(--seaglass-600); }
+  .moment:nth-child(3) .mic { background: #F6E4B4; } .moment:nth-child(3) .mic svg { stroke: #A9832B; }
+  .moment:nth-child(4) .mic { background: #D6E7EC; } .moment:nth-child(4) .mic svg { stroke: var(--tide-700); }
+  .moment .mic svg { width: 20px; height: 20px; }
+  .moment h3 { font-family: var(--font-display); font-weight: 700; font-size: var(--fs-h4); color: var(--sea-900); margin: 0; }
+  .moment p { margin: 0 0 12px; font-size: var(--fs-small); color: var(--text-body); line-height: 1.55; }
+  .moment .take { margin: 0; font-family: var(--font-hand); font-weight: 600; font-size: 1.2rem; color: var(--accent); }
+  .moment:nth-child(2) .take { color: var(--seaglass-600); }
+  .moment:nth-child(3) .take { color: #A9832B; }
+  .moment:nth-child(4) .take { color: var(--tide-700); }
+
+  /* ---------- CROSS-SELL / LAST ROOM ---------- */
+  .lastroom { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: var(--space-7); align-items: center; }
+  .lr-list { list-style: none; margin: var(--space-5) 0 0; padding: 0; display: flex; flex-direction: column; gap: 16px; }
+  .lr-list li { display: flex; gap: 14px; align-items: flex-start; }
+  .lr-list .ic { flex: none; width: 42px; height: 42px; border-radius: var(--radius-md); background: var(--surface-sunk); display: grid; place-items: center; }
+  .lr-list .ic svg { width: 21px; height: 21px; stroke: var(--brand-green); }
+  .lr-list b { font-family: var(--font-display); font-weight: 700; color: var(--sea-900); }
+  .lr-list p { margin: 2px 0 0; font-size: var(--fs-small); color: var(--text-muted); line-height: 1.5; }
+  .oleander { background: var(--sea-900); color: var(--text-on-ink); border-radius: var(--radius-lg); padding: var(--space-6); box-shadow: var(--shadow-lg); position: relative; }
+  .oleander .tape { position: absolute; top: -14px; left: 24px; }
+  .oleander h3 { font-family: var(--font-display); font-weight: 700; font-size: var(--fs-h4); color: var(--brand-sun); margin: 10px 0 12px; }
+  .oleander p { margin: 0 0 12px; font-size: var(--fs-small); color: var(--text-on-ink); line-height: 1.6; }
+  .oleander p:last-child { margin-bottom: 0; }
+  .oleander em { color: var(--sand-50); font-style: italic; }
+
+  /* ---------- BASE LAYER ---------- */
+  .base { background: var(--sand-200); border-top: 1px solid var(--border-hairline); border-bottom: 1px solid var(--border-hairline); }
+  .base-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-5); margin-top: var(--space-6); }
+  .basecard { background: var(--surface-card); border: 1px solid var(--border-hairline); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); padding: var(--space-6) var(--space-5); }
+  .basecard .bhead { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+  .basecard .bic { width: 44px; height: 44px; border-radius: var(--radius-md); display: grid; place-items: center; flex: none; background: var(--seaglass-200); }
+  .basecard .bic svg { width: 22px; height: 22px; stroke: var(--sea-700); }
+  .basecard h3 { font-family: var(--font-display); font-weight: 700; font-size: var(--fs-h4); color: var(--sea-900); margin: 0; }
+  .basecard .tag2 { font-family: var(--font-hand); font-weight: 600; color: var(--accent); font-size: 1.1rem; }
+  .basecard p { font-size: var(--fs-small); color: var(--text-body); line-height: 1.55; margin: 6px 0 14px; }
+  .basecard ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+  .basecard li { display: flex; justify-content: space-between; gap: 10px; font-size: var(--fs-small); color: var(--text-muted); border-top: 1px dotted var(--border-hairline); padding-top: 8px; }
+  .basecard li:first-child { border-top: 0; padding-top: 0; }
+  .basecard li b { font-family: var(--font-display); color: var(--sea-900); font-weight: 700; white-space: nowrap; }
+
+  /* ---------- WORKED EXAMPLE / LEDGER ---------- */
+  .ledger-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-6); margin-top: var(--space-6); align-items: start; }
+  .ledger { background: var(--surface-card); border: 1px solid var(--border-hairline); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); overflow: hidden; }
+  .ledger .lh { padding: 16px 22px; border-bottom: 1px solid var(--border-hairline); display: flex; align-items: center; gap: 10px; }
+  .ledger .lh svg { width: 20px; height: 20px; }
+  .ledger .lh b { font-family: var(--font-display); font-weight: 700; font-size: var(--fs-h4); color: var(--sea-900); }
+  .ledger.rev .lh { background: #DCEBE1; } .ledger.rev .lh svg { stroke: var(--seaglass-600); }
+  .ledger.cost .lh { background: var(--accent-soft); } .ledger.cost .lh svg { stroke: var(--coral-600); }
+  .lrow { display: flex; justify-content: space-between; gap: 14px; padding: 12px 22px; border-top: 1px dotted var(--border-hairline); font-size: var(--fs-small); }
+  .lrow:first-of-type { border-top: 0; }
+  .lrow .desc { color: var(--text-body); }
+  .lrow .desc em { display: block; font-style: normal; font-size: 12px; color: var(--text-faint); margin-top: 1px; }
+  .lrow .val { font-family: var(--font-display); font-weight: 700; color: var(--sea-900); white-space: nowrap; }
+  .lrow.sum { background: var(--surface-sunk); border-top: 1.5px solid var(--border-wood); }
+  .lrow.sum .desc { font-weight: 700; color: var(--sea-900); font-family: var(--font-display); }
+  .lrow.sum .val { font-size: 1.15rem; }
+  .lrow.sum.rev .val { color: var(--seaglass-600); }
+  .lrow.sum.cost .val { color: var(--coral-600); }
+
+  .result { grid-column: 1 / -1; background: var(--sea-900); color: var(--sand-50); border-radius: var(--radius-lg); padding: var(--space-6); display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-5); box-shadow: var(--shadow-lg); }
+  .result .rcell { text-align: center; }
+  .result .rcell + .rcell { border-left: 1px solid rgba(255,255,255,0.14); }
+  .result .rcell .lab { font-size: var(--fs-caption); text-transform: uppercase; letter-spacing: var(--ls-label); color: var(--text-on-ink-muted); margin-bottom: 8px; }
+  .result .rcell .big { font-family: var(--font-display); font-weight: 800; font-size: 2.6rem; line-height: 1; }
+  .result .rcell.profit .big { color: var(--brand-sun); }
+  .result .rcell .sub { font-size: 12px; color: var(--text-on-ink-muted); margin-top: 8px; }
+  .result .rcell .hand { font-family: var(--font-hand); font-weight: 600; font-size: 1.3rem; color: var(--seaglass-400); }
+
+  .disclaimer { max-width: 62ch; margin: var(--space-5) auto 0; text-align: center; font-size: 12px; color: var(--text-faint); font-style: italic; }
+
+  /* ---------- FIRST STEPS ---------- */
+  .steps-sec { background: var(--surface-ink); color: var(--text-on-ink); }
+  .steps-sec .eyebrow { color: var(--brand-sun); }
+  .steps-sec h2.sec { color: var(--sand-50); }
+  .steps { list-style: none; counter-reset: step; margin: var(--space-6) 0 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 14px 32px; }
+  .steps li { counter-increment: step; display: flex; gap: 16px; align-items: flex-start; padding: 14px 0; border-top: 1px solid rgba(255,255,255,0.12); }
+  .steps li::before { content: counter(step); flex: none; width: 34px; height: 34px; border-radius: 50%; background: var(--brand-sun); color: var(--sea-900); font-family: var(--font-display); font-weight: 800; display: grid; place-items: center; font-size: 1rem; }
+  .steps li b { color: var(--sand-50); font-family: var(--font-display); font-weight: 600; }
+  .steps li p { margin: 3px 0 0; font-size: var(--fs-small); color: var(--text-on-ink-muted); line-height: 1.5; }
+  .steps li .txt { padding-top: 4px; }
+
+  /* ---------- FOOTER ---------- */
+  .footer { text-align: center; padding: var(--space-8) 0; }
+  .footer .made { font-family: var(--font-hand); font-size: 1.6rem; color: var(--driftwood-500); }
+  .footer .stone { width: 46px; height: 46px; background: var(--driftwood-300); border-radius: var(--radius-stone); margin: 0 auto 18px; box-shadow: var(--shadow-sm); }
+
+  @media (max-width: 860px) {
+    .promise-grid, .stack-notes, .clock-cols, .moments, .base-grid, .lastroom, .ledger-wrap, .steps { grid-template-columns: 1fr; }
+    .tiers { grid-template-columns: 1fr; }
+    .result { grid-template-columns: 1fr; gap: var(--space-5); }
+    .result .rcell + .rcell { border-left: 0; border-top: 1px solid rgba(255,255,255,0.14); padding-top: var(--space-5); }
+    .ferry-bands { flex-direction: column; }
+    .ferry-fill.day, .ferry-fill.eve { display: none; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .clocks, .steps-sec { background: #fff; color: var(--text-body); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    section { break-inside: avoid; }
+    .tier, .moment, .basecard, .ledger, .band, .result { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#E4674A"/><text x="50" y="62" font-size="34" text-anchor="middle" fill="#1A1A1A" font-family="serif">WS</text></svg></template>
+
+  <!-- ============ HERO ============ -->
+  <header class="hero">
+    <div class="wrap">
+      <div class="kicker">a way to make it pay</div>
+      <p class="eyebrow">Wishing Stones · revenue playbook</p>
+      <h1 class="title">The Door &amp; <em>The Box</em></h1>
+      <p class="lead">People will happily pay for a great night out at Wishing Stones — more happily than we tend to ask. This is a way to <strong>keep the door open to everyone</strong>, hand every artist their box, and still come out the far side with real money in the tin. <strong>The box stays. The door opens.</strong></p>
+      <div class="anchor-stats">
+        <div class="astat"><b>$0 <span class="arrow">→</span> ~$2k</b><span>What one good Friday earns the gallery — from nothing today, to the worked example on this page</span></div>
+        <div class="astat"><b>1 <span class="arrow">→</span> 6</b><span>From a single tip box to six streams that stack into a profit</span></div>
+        <div class="astat"><b>$0</b><span>The price of the door for a neighbour who can't pay — kept, on purpose, forever</span></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ TWO PROMISES ============ -->
+  <section class="promises">
+    <div class="wrap">
+      <div class="promise-head">
+        <span class="tape washi">the two promises</span>
+        <p>Everything else on this page is only allowed to exist because these two never break.</p>
+      </div>
+      <div class="promise-grid">
+        <div class="promise">
+          <div class="ic"><i data-lucide="hand-heart"></i></div>
+          <div>
+            <h3>Nobody is ever turned away.</h3>
+            <p>There is always a pay-what-you-can door — from zero, no questions, no awkwardness. An islander on a thin week gets the same seat as anyone. This is the soul of the place, and it is <em>why</em> people trust us enough to pay more when they can.</p>
+          </div>
+        </div>
+        <div class="promise">
+          <div class="ic"><i data-lucide="box"></i></div>
+          <div>
+            <h3>The artist's box is always the artist's.</h3>
+            <p>The tip box by the stage stays exactly as it is — every coin the artist's, untouched. What changes is that we stop confusing the box with the door. The <em>door</em> covers the building and the night. The <em>box</em> thanks the artist. Two different things.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ THE STACK ============ -->
+  <section>
+    <div class="wrap">
+      <h2 class="sec"><span class="n">01</span>Stop leaning on one box. Build a stack.</h2>
+      <p class="sec-intro">Right now the whole night rests on one box of loose change — and that box belongs to the artist anyway, so the gallery keeps <strong>nothing</strong>. The fix isn't to charge more in one place. It's to earn a <strong>little</strong> in several places that stack up. Read it bottom to top: the dark layers quietly cover the costs, so everything above them is profit.</p>
+
+      <div class="stack">
+        <div class="band f1">
+          <div class="bic"><i data-lucide="landmark"></i></div>
+          <div class="btext"><b>Arts grants</b><span>Underwrite the artist fee &amp; the fixed costs before a single ticket sells</span></div>
+          <div class="btag">the floor</div>
+        </div>
+        <div class="band f2">
+          <div class="bic"><i data-lucide="users-round"></i></div>
+          <div class="btext"><b>Friends of Wishing Stones</b><span>Annual memberships — predictable money in every January</span></div>
+          <div class="btag">the floor</div>
+        </div>
+        <div class="band m1">
+          <div class="bic"><i data-lucide="ticket"></i></div>
+          <div class="btext"><b>Admission at the door</b><span>Choose-your-seat tiers — from pay-what-you-can up to patron</span></div>
+          <div class="btag">margin</div>
+        </div>
+        <div class="band m2">
+          <div class="bic"><i data-lucide="coffee"></i></div>
+          <div class="btext"><b>Café &amp; bar</b><span>Tea, chowder, baking — and a licence for the evening events</span></div>
+          <div class="btag">margin</div>
+        </div>
+        <div class="band m3">
+          <div class="bic"><i data-lucide="shopping-bag"></i></div>
+          <div class="btext"><b>The gallery on the way out</b><span>Prints, photography &amp; local makers — everyone leaves through the art</span></div>
+          <div class="btag">margin</div>
+        </div>
+        <div class="band m4">
+          <div class="bic"><i data-lucide="gavel"></i></div>
+          <div class="btext"><b>Moments in the night</b><span>50/50 draw, silent auction, the lot of the night</span></div>
+          <div class="btag">margin</div>
+        </div>
+      </div>
+
+      <div class="stack-notes">
+        <div class="stack-note">
+          <b>The two dark layers are the floor.</b>
+          <p>Grants and memberships arrive <em>before</em> the event and cover the artist's fee, the heat, and Hilary's time. They turn the night's fixed costs into a solved problem.</p>
+        </div>
+        <div class="stack-note profit">
+          <b>Everything above the floor is profit.</b>
+          <p>Once the floor covers the costs, the door, the café, the shop and the money-moments aren't recovering losses — they're building the surplus that keeps Wishing Stones going.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TIERS ============ -->
+  <section style="background: var(--surface-raised); border-top: 1px solid var(--border-hairline); border-bottom: 1px solid var(--border-hairline);">
+    <div class="wrap">
+      <h2 class="sec"><span class="n">02</span>Choose your seat, not your guilt.</h2>
+      <p class="sec-intro">Pure pay-what-you-want quietly asks everyone to pay the <em>least</em> they can. This does the opposite: it names a fair price, offers a generous one for those who want to give more, and still keeps a real seat for anyone who can't. Same room, same night — people simply <strong>choose the tier that fits them</strong>. Most visitors, given the choice, don't pick the bottom.</p>
+
+      <div class="tiers">
+        <div class="tier">
+          <div class="tname">Neighbour</div>
+          <div class="tsub">For islanders &amp; anyone having a thin week. The promise, kept.</div>
+          <div class="price"><span class="from">pay what you can</span>from $0</div>
+          <ul>
+            <li><i data-lucide="check"></i> A real seat, no questions asked</li>
+            <li><i data-lucide="check"></i> Suggested $10 if the week allows</li>
+            <li><i data-lucide="check"></i> Free with a Friends membership</li>
+          </ul>
+        </div>
+
+        <div class="tier feature">
+          <div class="flag"><span class="tape coral">most will pick this</span></div>
+          <div class="tname">Standard</div>
+          <div class="tsub">The honest price of a genuinely good night out — still a bargain for a destination.</div>
+          <div class="price">$22<small> / seat</small></div>
+          <ul>
+            <li><i data-lucide="check"></i> Guaranteed seat at the show</li>
+            <li><i data-lucide="check"></i> A cup of something on arrival</li>
+            <li><i data-lucide="check"></i> The card that says where your money goes</li>
+          </ul>
+        </div>
+
+        <div class="tier">
+          <div class="tname">Patron</div>
+          <div class="tsub">For the visitor or supporter glad to give more — and Brian Ray was right, they exist.</div>
+          <div class="price">$45<small> / seat</small></div>
+          <ul>
+            <li><i data-lucide="check"></i> Reserved seat up front</li>
+            <li><i data-lucide="check"></i> A glass of wine or island cider</li>
+            <li><i data-lucide="check"></i> Name in the gallery's guest book</li>
+            <li><i data-lucide="check"></i> 10% off anything in the shop that night</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TWO CLOCKS ============ -->
+  <section class="clocks">
+    <div class="wrap-wide">
+      <p class="eyebrow">the ferry runs the register</p>
+      <h2 class="sec">Two clocks: the day boat and the Friday boat.</h2>
+      <p class="sec-intro">The ferry decides who can spend money and when. <strong>Fight it and you lose; program to it and it pays.</strong> Day-trippers land at 11 and must be gone by 3:30 — a big, hurried, cash-in-pocket crowd with nowhere else to go. Only the Friday boat (and later weekend runs) lets a visitor stay for a proper evening. So we run two different businesses on the same floor.</p>
+
+      <div class="ferry">
+        <div class="ferry-line">
+          <div class="ferry-fill day"></div>
+          <div class="ferry-fill eve"></div>
+          <div class="stop" style="left: 0;"><span class="t">11:00</span><span class="dot"></span><span class="l">boat lands</span></div>
+          <div class="stop" style="left: 46%;"><span class="t">3:30</span><span class="dot"></span><span class="l">day boat home</span></div>
+          <div class="stop" style="left: 100%;"><span class="t">9:00</span><span class="dot"></span><span class="l">Fri late boat</span></div>
+        </div>
+        <div class="ferry-bands">
+          <div class="fband day">
+            <div class="lab">11:00 – 3:30 · every day</div>
+            <p>The <strong>retail window.</strong> High volume, short fuse. Sell experiences that fit in a 4½-hour visit and take payment on the spot.</p>
+          </div>
+          <div class="fband eve">
+            <div class="lab">Fridays to 9:00 · weekends to 5–6</div>
+            <p>The <strong>flagship window.</strong> The only time visitors can sit for a full evening. This is when the ticketed concerts and storytellers run.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="clock-cols">
+        <div class="clock-col day">
+          <h3><i data-lucide="sun"></i> Daytime — the retail window</h3>
+          <p class="k">Short, priced-per-head, buy-it-and-go. Cast the widest net on the summer crowd.</p>
+          <ul class="menu">
+            <li><span class="item">Gallery talk — "stories behind the objects"<em>45 min · fills the shoulder hours</em></span><span class="amt day">$10</span></li>
+            <li><span class="item">Tarot reading on the porch<em>pay-what-you-like, suggested</em></span><span class="amt day">$20</span></li>
+            <li><span class="item">15-minute chair massage<em>a visiting RMT, ferry days</em></span><span class="amt day">$20</span></li>
+            <li><span class="item">Make-&amp;-take workshop<em>sea-glass jewelry · materials included</em></span><span class="amt day">$35</span></li>
+            <li><span class="item">Foraging walk &amp; taste<em>90 min · books out in advance</em></span><span class="amt day">$40</span></li>
+          </ul>
+        </div>
+        <div class="clock-col eve">
+          <h3><i data-lucide="moon-star"></i> Evening — the flagship window</h3>
+          <p class="k">Ticketed, tiered, unhurried. The nights people travel over and talk about after.</p>
+          <ul class="menu">
+            <li><span class="item">Concert — Gary Edwards &amp; a friend<em>choose-your-seat tiers</em></span><span class="amt eve">$0–45</span></li>
+            <li><span class="item">Storyteller's evening<em>folding chairs, full room</em></span><span class="amt eve">$0–45</span></li>
+            <li><span class="item">Movie night in the gallery<em>island-only · pay-what-you-can</em></span><span class="amt eve">by donation</span></li>
+            <li><span class="item">The portrait party<em>event-within-an-event · big reveal</em></span><span class="amt eve">$25</span></li>
+            <li><span class="item">Add: café &amp; licensed bar<em>the longer they stay, the more they spend</em></span><span class="amt eve">per item</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MONEY MOMENTS ============ -->
+  <section>
+    <div class="wrap">
+      <h2 class="sec"><span class="n">03</span>Build little money-moments into the night.</h2>
+      <p class="sec-intro">These aren't add-ons that cheapen the evening — done with a light touch, <strong>they're the most fun part of it.</strong> A room that's already warm and generous will happily throw a few more dollars at something playful, especially when the cause is the very place they're standing in.</p>
+
+      <div class="moments">
+        <div class="moment">
+          <div class="mhead"><div class="mic"><i data-lucide="ticket-percent"></i></div><h3>The 50/50 draw</h3></div>
+          <p>Sell tickets through the interval; the pot splits in half — one half to the winner, one half to the gallery. Maritime crowds already know the ritual, and nobody minds because they might win.</p>
+          <p class="take">a $280 pot → $140 to the tin</p>
+        </div>
+        <div class="moment">
+          <div class="mhead"><div class="mic"><i data-lucide="gavel"></i></div><h3>The silent auction</h3></div>
+          <p>One donated piece from a local artist sits on the wall all evening with a bid sheet beside it. Bidding closes at the last song. The artist gets the exposure and a receipt; the gallery keeps the hammer price.</p>
+          <p class="take">one donated painting → $200+</p>
+        </div>
+        <div class="moment">
+          <div class="mhead"><div class="mic"><i data-lucide="hand"></i></div><h3>The lot of the night</h3></div>
+          <p>A single live-auction item the room can rally around — a private house concert, a portrait commission, a signed print of <em>Oleander</em>. One good-humoured minute, real money.</p>
+          <p class="take">one lot → $100–500</p>
+        </div>
+        <div class="moment">
+          <div class="mhead"><div class="mic"><i data-lucide="gift"></i></div><h3>The gallery basket raffle</h3></div>
+          <p>Bundle a few slow-moving shop goods into a basket and raffle it by the door. It clears stock, seeds impulse buys, and every ticket is pure margin.</p>
+          <p class="take">40 tickets at $5 → $200</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LAST ROOM ============ -->
+  <section style="background: var(--surface-raised); border-top: 1px solid var(--border-hairline); border-bottom: 1px solid var(--border-hairline);">
+    <div class="wrap">
+      <div class="lastroom">
+        <div>
+          <h2 class="sec" style="margin-bottom: 12px;"><span class="n">04</span>The gallery is the last room they walk through.</h2>
+          <p class="sec-intro" style="margin-bottom: 0;">An audience that's just had a moving evening is in the most generous mood it will be in all week. <strong>Don't send them straight out the door — send them out through the art.</strong> This is where a good night quietly becomes a profitable one.</p>
+          <ul class="lr-list">
+            <li>
+              <div class="ic"><i data-lucide="camera"></i></div>
+              <div><b>Lead with your own photography.</b><p>The boats, the harbour, <em>Oleander</em>. It's the highest-margin thing on the shelves and it's uniquely yours — the print nobody else can sell.</p></div>
+            </li>
+            <li>
+              <div class="ic"><i data-lucide="palette"></i></div>
+              <div><b>Champion the local makers.</b><p>Their work on consignment turns their fans into your foot traffic, and every sale takes a margin while supporting the island's artists.</p></div>
+            </li>
+            <li>
+              <div class="ic"><i data-lucide="package"></i></div>
+              <div><b>Make the "night-of" bundle.</b><p>A ticket + a small print, or a workshop + the thing they made, sold as one. Bundles lift the average sale without feeling like a hard sell.</p></div>
+            </li>
+          </ul>
+        </div>
+        <div class="oleander">
+          <span class="tape sun">the Oleander proof</span>
+          <h3>People buy the story, not just the print.</h3>
+          <p>Jason Mraz once flipped through the binder and stopped cold — <em>"is that Oleander?"</em> — at a photo of the bow, the rope, the mooring. He bought it on the spot.</p>
+          <p>That's the whole cross-sell in one moment: the picture carried a story he recognised, and the story is what he paid for. Every visitor who's just spent an evening in this building is holding a little of that same feeling. <em>Give them something to take home.</em></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ BASE LAYER ============ -->
+  <section class="base">
+    <div class="wrap">
+      <h2 class="sec"><span class="n">05</span>The quiet money that arrives before the doors open.</h2>
+      <p class="sec-intro">Ticket nights are the show. But the money that makes the whole thing <em>safe</em> is the money that's already in the account before anyone shows up — <strong>and it's the same money that unlocks the bigger nights.</strong></p>
+
+      <div class="base-grid">
+        <div class="basecard">
+          <div class="bhead"><div class="bic"><i data-lucide="users-round"></i></div><h3>Friends of Wishing Stones</h3></div>
+          <p>An annual membership. It turns the ~100 islanders and the repeat cottagers into a dependable base — and lets the community fund the community, which is exactly how they want it.</p>
+          <ul>
+            <li>Individual, per year <b>$40</b></li>
+            <li>Household, per year <b>$75</b></li>
+            <li>Free island-only nights + 10% shop <b>always</b></li>
+          </ul>
+        </div>
+        <div class="basecard">
+          <div class="bhead"><div class="bic"><i data-lucide="landmark"></i></div><h3>Arts grants</h3></div>
+          <p>Grants exist to cover the artist fees and the fixed costs — the "loss-leader" part of a night. A documented, well-attended, ticketed program is exactly what makes you <em>competitive</em> for them.</p>
+          <ul>
+            <li>Canada Council for the Arts <b>project</b></li>
+            <li>Arts Nova Scotia / Support4Culture <b>annual</b></li>
+            <li>District of Chester community grant <b>local</b></li>
+          </ul>
+        </div>
+        <div class="basecard">
+          <div class="bhead"><div class="bic" style="background: var(--accent-soft);"><i data-lucide="tent" style="stroke: var(--coral-600);"></i></div><h3>Summer camping <span class="tag2">— the unlock</span></h3></div>
+          <p>There's no overnight accommodation, and that caps every evening event at islanders plus the late boat. A simple summer campground earns its own keep <em>and</em> lets visitors stay for the flagship nights and the retreats.</p>
+          <ul>
+            <li>Tent site, per night <b>$30</b></li>
+            <li>Unlocks weekend retreats <b>$150+/head</b></li>
+            <li>Ties in the kids' nature camp <b>with Joan</b></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WORKED EXAMPLE ============ -->
+  <section>
+    <div class="wrap-wide">
+      <div style="text-align:center; margin-bottom: var(--space-4);"><span class="tape kraft">do the sums</span></div>
+      <h2 class="sec" style="text-align:center;">One Friday evening in July.</h2>
+      <p class="sec-intro" style="margin: 0 auto var(--space-6); text-align:center;">A storyteller and a couple of musicians. <strong>70 people</strong> in a room that could hold more. Here's the same night, counted honestly — door, café, shop and money-moments on one side; the real costs on the other.</p>
+
+      <div class="ledger-wrap">
+        <div class="ledger rev">
+          <div class="lh"><i data-lucide="trending-up"></i><b>What comes in</b></div>
+          <div class="lrow"><span class="desc">Door — 18 Neighbour seats<em>pay-what-you-can, averaging $9</em></span><span class="val">$162</span></div>
+          <div class="lrow"><span class="desc">Door — 37 Standard seats<em>at $22</em></span><span class="val">$814</span></div>
+          <div class="lrow"><span class="desc">Door — 15 Patron seats<em>at $45</em></span><span class="val">$675</span></div>
+          <div class="lrow"><span class="desc">Café &amp; licensed bar<em>70 guests, net of supplies</em></span><span class="val">$300</span></div>
+          <div class="lrow"><span class="desc">50/50 draw<em>gallery's half of a $280 pot</em></span><span class="val">$140</span></div>
+          <div class="lrow"><span class="desc">Silent auction<em>one donated local piece</em></span><span class="val">$240</span></div>
+          <div class="lrow"><span class="desc">Gallery on the way out<em>10 sales, net of consignment</em></span><span class="val">$260</span></div>
+          <div class="lrow sum rev"><span class="desc">Comes in</span><span class="val">$2,591</span></div>
+        </div>
+
+        <div class="ledger cost">
+          <div class="lh"><i data-lucide="trending-down"></i><b>What goes out</b></div>
+          <div class="lrow"><span class="desc">Artist guarantee<em>a grant can cover this entirely</em></span><span class="val">$350</span></div>
+          <div class="lrow"><span class="desc">Hilary's time<em>setup, hosting, the special touches — finally paid</em></span><span class="val">$200</span></div>
+          <div class="lrow"><span class="desc">Heat, power &amp; insurance<em>the night's share</em></span><span class="val">$70</span></div>
+          <div class="lrow"><span class="desc">Printing &amp; sundries<em>tickets, bid sheets, posters</em></span><span class="val">$40</span></div>
+          <div class="lrow sum cost"><span class="desc">Goes out</span><span class="val">$660</span></div>
+          <div style="padding: 22px; ">
+            <p style="margin:0; font-size: var(--fs-small); color: var(--text-muted); line-height:1.6;">And the artist? They leave with the <b style="color:var(--sea-900); font-family:var(--font-display);">$350 guarantee</b> <em>plus</em> their box — which on a full, happy night like this runs another <b style="color:var(--sea-900); font-family:var(--font-display);">$300–400</b>. Everybody goes home whole.</p>
+          </div>
+        </div>
+
+        <div class="result">
+          <div class="rcell">
+            <div class="lab">Comes in</div>
+            <div class="big" style="color: var(--seaglass-400);">$2,591</div>
+            <div class="sub">seven small streams</div>
+          </div>
+          <div class="rcell">
+            <div class="lab">Goes out</div>
+            <div class="big" style="color: #F4A48C;">$660</div>
+            <div class="sub">$350 of it grant-covered</div>
+          </div>
+          <div class="rcell profit">
+            <div class="lab">Stays in the tin</div>
+            <div class="big">~$1,930</div>
+            <div class="hand">and nobody was turned away.</div>
+          </div>
+        </div>
+      </div>
+
+      <p class="disclaimer">An illustration, not a promise — the numbers are a realistic model to show the shape of a night, not a forecast. Attendance, prices and costs will vary. The point is the structure: several modest streams, a grant-covered floor, and a genuine free seat all fit in one evening.</p>
+    </div>
+  </section>
+
+  <!-- ============ FIRST STEPS ============ -->
+  <section class="steps-sec">
+    <div class="wrap">
+      <p class="eyebrow">what changes on Monday</p>
+      <h2 class="sec">Five things to try before the summer boats.</h2>
+      <ol class="steps">
+        <li><div class="txt"><b>Split the door from the box.</b><p>Put out a tiered "choose your seat" sign and a separate, clearly-labelled artist's box. Say it out loud at the start of the night.</p></div></li>
+        <li><div class="txt"><b>Name a Standard price.</b><p>Pick one honest number — $20–25 — and let people trade up to Patron or down to Neighbour. Watch how few pick the bottom.</p></div></li>
+        <li><div class="txt"><b>Open "Friends" memberships.</b><p>A single card and a jar. Sell the first ones to the islanders who already pour money in — they'll be glad of a formal way to help.</p></div></li>
+        <li><div class="txt"><b>Add one money-moment.</b><p>Start with the 50/50 draw — it's the easiest, the most familiar, and the least like selling. Build to the silent auction later.</p></div></li>
+        <li><div class="txt"><b>Route the exit through the shop.</b><p>Move your own photography to eye level by the door, and mention one print from the stage. Let the good mood do the rest.</p></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <div class="wrap">
+      <div class="stone"></div>
+      <p class="made">keep the door open — and make it pay.</p>
+    </div>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+  </script>
+
+</body>
+</html>
