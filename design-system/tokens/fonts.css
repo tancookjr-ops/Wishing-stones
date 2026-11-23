@@ -1,0 +1,11 @@
+/* Wishing Stones — Webfonts
+ * SUBSTITUTION NOTE: No brand font files were provided. These are Google Fonts
+ * chosen to carry the brand's voice; swap for licensed files if the studio has them.
+ *  - Bricolage Grotesque : display / headings. "Bricolage" literally means makeshift/DIY —
+ *    a warm, slightly irregular grotesque that fits the driftwood-makeshift spirit.
+ *  - Newsreader          : body. A literary, gallery-catalogue serif — readable and warm.
+ *  - Caveat              : handwritten accent for labels, captions, "island magic" notes.
+ *  - La Belle Aurore      : the "sign script" — recreates the handwriting carved into the
+ *    wooden Wishing Stones sign out front (slanted, flowing, big swooping S).
+ */
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Caveat:wght@500;600;700&family=La+Belle+Aurore&display=swap");

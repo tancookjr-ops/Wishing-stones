@@ -1,0 +1,22 @@
+/* Wishing Stones — Shadows, borders, motion */
+:root {
+  /* Soft, low, warm shadows — like objects resting on a sunlit shelf.
+     Never hard black; tinted with driftwood brown. */
+  --shadow-sm: 0 1px 2px rgba(59, 50, 38, 0.10);
+  --shadow-md: 0 6px 18px rgba(59, 50, 38, 0.12);
+  --shadow-lg: 0 18px 40px rgba(59, 50, 38, 0.16);
+  --shadow-lift: 0 10px 28px rgba(59, 50, 38, 0.18);
+
+  /* Pinned / taped objects get a tiny offset "propped" shadow */
+  --shadow-prop: 2px 3px 0 rgba(59, 50, 38, 0.14);
+
+  /* Borders */
+  --border-1: 1px solid var(--border-hairline);
+  --border-ink: 2px solid var(--sea-900);
+
+  /* Motion — gentle, tidal; nothing snappy or springy */
+  --ease-tide: cubic-bezier(0.33, 0, 0.2, 1);   /* @kind other */
+  --dur-fast: 140ms;   /* @kind other */
+  --dur-med: 260ms;    /* @kind other */
+  --dur-slow: 480ms;   /* @kind other */
+}

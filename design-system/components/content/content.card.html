@@ -1,0 +1,34 @@
+<!-- @dsCard group="Components" viewport="700x340" name="Cards, Badges & Tags" subtitle="Paper cards, status pills, filter chips" -->
+<!DOCTYPE html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>body{margin:0;background:var(--sand-100);font-family:var(--font-body)}
+#root{padding:26px;display:flex;gap:24px;align-items:flex-start;flex-wrap:wrap}
+.lbl{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--text-faint);margin-bottom:8px;width:100%}
+.stack{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+</style></head>
+<body>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#E4674A"/><text x="50" y="62" font-size="34" text-anchor="middle" fill="#1A1A1A" font-family="serif">WS</text></svg></template><div id="root"></div>
+<script type="text/babel">
+const { Card, Badge, Tag } = window.WishingStonesDesignSystem_953619;
+function Demo(){const [a,setA]=React.useState(0);const cats=['All','Pottery','Sea glass','Prints'];
+return (<>
+  <Card style={{width:200}}>
+    <div style={{height:110,background:'linear-gradient(160deg,var(--tide-300),var(--seaglass-400))'}}></div>
+    <div style={{padding:'14px 16px'}}>
+      <div style={{marginBottom:8}}><Badge tone="accent">Just in</Badge></div>
+      <h3 style={{fontFamily:'var(--font-display)',margin:'0 0 4px',fontSize:18,color:'var(--sea-900)'}}>Speckled mug</h3>
+      <p style={{margin:0,color:'var(--text-muted)',fontSize:14}}>Thrown on the island · $28</p>
+    </div>
+  </Card>
+  <div>
+    <div class="lbl">Badges</div>
+    <div class="stack"><Badge tone="glass">Local artisan</Badge><Badge tone="accent">New</Badge><Badge tone="sun">One of a kind</Badge><Badge tone="ink">Sold</Badge></div>
+    <div class="lbl">Tags (filter)</div>
+    <div class="stack">{cats.map((c,i)=><Tag key={c} active={a===i} onClick={()=>setA(i)}>{c}</Tag>)}</div>
+  </div>
+</>);}
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo/>);
+</script></body></html>

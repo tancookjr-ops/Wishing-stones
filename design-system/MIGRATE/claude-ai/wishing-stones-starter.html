@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light">
+<title>Wishing Stones — artifact starter</title>
+<style>
+
+/* tokens.inline.css — derived 2026-11-22 from the styles.css @import closure (5 files). Do not hand-edit. */
+/* ── tokens/colors.css ── */
+/* Wishing Stones — Color tokens
+ * A sun-bleached North Atlantic coastal palette: warm sand paper, weathered driftwood,
+ * sea glass, deep tidal water, and a couple of quirky buoy-bright pops.
+ */
+:root {
+  /* ---- Base palette ---- */
+  /* Papers & sand (surfaces) */
+  --sand-50:  #FBF7EE;   /* lightest paper */
+  --sand-100: #F6F0E1;   /* default page paper */
+  --sand-200: #EDE3CE;   /* raised paper / card back */
+  --sand-300: #E0D2B5;   /* sandy edge */
+
+  /* Driftwood (neutrals / weathered wood) */
+  --driftwood-300: #C4B49C;
+  --driftwood-500: #9C8A72;
+  --driftwood-700: #6E5F4C;
+  --driftwood-900: #3B3226;
+
+  /* Deep sea (primary ink + brand dark) */
+  --sea-900: #1C3A3D;    /* near-black text, deepest tidal green-navy */
+  --sea-700: #2E5A5C;
+  --sea-500: #3E7C7B;    /* mid tidal */
+
+  /* Sea glass (soft brand green) */
+  --seaglass-200: #CBE3D8;
+  --seaglass-400: #8FC4B0;
+  --seaglass-600: #5E9B87;
+
+  /* Sky & tide (cool blues) */
+  --tide-300: #A9CBD6;
+  --tide-500: #6FA3B4;
+  --tide-700: #40707F;
+
+  /* ---- Quirky pops (buoys, floats, painted signs) ---- */
+  --coral-500: #E4674A;   /* buoy red-orange — primary accent */
+  --coral-600: #C9502F;
+  --sunwash-400: #EBBE5E; /* beach sun yellow */
+  --rosehip-500: #C65A6E; /* wild rose pink */
+
+  /* ---- Cozy interior (the rooms: hearth, lamplight, painted floors) ---- */
+  /* Sampled from inside the building — warmer & deeper than the sun-bleached
+     exterior palette. These carry the "come wander & stay a while" feeling. */
+  --wall-butter:     #EFE1C0;   /* warm beadboard cream (museum walls) */
+  --wall-rose:       #C98D93;   /* dusty mauve-rose painted wall */
+  --wall-rose-soft:  #EBCDCE;   /* washed rose wash */
+  --floor-sage:      #A7BD9C;   /* the green painted floor */
+  --floor-sage-soft: #CFDBC5;   /* washed sage */
+  --lamp-amber:      #E7B266;   /* lamplight & string-light glow */
+  --hearth-900:      #241C15;   /* warm near-black — the wood-stove room */
+  --hearth-800:      #382A1F;
+
+  /* ---- The painted facade (sampled from the building itself) ---- */
+  /* Three little buildings mashed together: peach shingles, periwinkle boards,
+     and the sea-green crate that holds the sign. */
+  --facade-peach:      #F2C795;
+  --facade-peach-soft: #F7DDBB;
+  --facade-peach-deep: #E2AC70;
+  --facade-blue:       #7E9CD8;
+  --facade-blue-soft:  #B9CAEA;
+  --facade-blue-deep:  #5F7FC0;
+  --facade-green:      #C4D9B4;   /* the sign's crate green */
+  --facade-green-deep: #9DB88B;
+  --board-grey:        #A79E8E;   /* the weathered sign board */
+
+  /* ---- Semantic aliases ---- */
+  --surface-page:     var(--sand-100);
+  --surface-raised:   var(--sand-50);
+  --surface-card:     var(--sand-50);
+  --surface-sunk:     var(--sand-200);
+  --surface-ink:      var(--sea-900);   /* dark sections (cool) */
+  --surface-butter:   var(--wall-butter);
+  --surface-hearth:   var(--hearth-900); /* warm cozy dark sections */
+  --text-on-hearth:      #F1E4C8;
+  --text-on-hearth-muted:#CBB794;
+
+  --text-strong:      var(--sea-900);
+  --text-body:        var(--driftwood-900);
+  --text-muted:       var(--driftwood-700);
+  --text-faint:       var(--driftwood-500);
+  --text-on-ink:      var(--sand-100);
+  --text-on-ink-muted:#B9C7BC;
+
+  --border-hairline:  #DED0B4;          /* subtle sand line */
+  --border-wood:      var(--driftwood-500);
+  --border-strong:    var(--sea-900);
+
+  --accent:           var(--coral-500);
+  --accent-hover:     var(--coral-600);
+  --accent-soft:      #F6D9CF;
+  --brand-green:      var(--seaglass-600);
+  --brand-sun:        var(--sunwash-400);
+
+  --focus-ring:       var(--tide-700);
+}
+
+/* ── tokens/typography.css ── */
+/* Wishing Stones — Typography tokens */
+:root {
+  /* Families */
+  --font-display: "Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif;
+  --font-body:    "Newsreader", Georgia, "Times New Roman", serif;
+  --font-hand:    "Caveat", "Bradley Hand", cursive;
+  --font-sign:    "La Belle Aurore", "Caveat", cursive;  /* the carved sign script */
+
+  /* Weights */
+  --fw-regular: 400;   /* @kind font */
+  --fw-medium:  500;   /* @kind font */
+  --fw-semibold:600;   /* @kind font */
+  --fw-bold:    700;   /* @kind font */
+  --fw-black:   800;   /* @kind font */
+
+  /* Fluid display sizes (headings — Bricolage) */
+  --fs-display: clamp(3rem, 7vw, 5.5rem);      /* @kind font */
+  --fs-h1: clamp(2.25rem, 4.5vw, 3.5rem);      /* @kind font */
+  --fs-h2: clamp(1.75rem, 3vw, 2.5rem);        /* @kind font */
+  --fs-h3: 1.5rem;   /* @kind font */
+  --fs-h4: 1.2rem;   /* @kind font */
+
+  /* Body scale (Newsreader) */
+  --fs-lead: 1.375rem;      /* @kind font */
+  --fs-body: 1.0625rem;     /* @kind font */
+  --fs-small:0.9375rem;     /* @kind font */
+  --fs-caption: 0.8125rem;  /* @kind font */
+
+  /* Handwritten */
+  --fs-hand: 1.5rem;   /* @kind font */
+
+  /* Line heights */
+  --lh-tight: 1.05;   /* @kind font */
+  --lh-snug:  1.2;    /* @kind font */
+  --lh-body:  1.6;    /* @kind font */
+  --lh-loose: 1.75;   /* @kind font */
+
+  /* Letter spacing */
+  --ls-tight: -0.02em;   /* @kind font */
+  --ls-normal: 0;        /* @kind font */
+  --ls-label: 0.12em;    /* @kind font */
+}
+
+/* ── tokens/spacing.css ── */
+/* Wishing Stones — Spacing, radius, layout tokens
+ * Slightly organic radii — hand-cut, not machine-perfect.
+ */
+:root {
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --space-10: 128px;
+
+  /* Radii — gently rounded like sea-tumbled stones & driftwood */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 32px;
+  --radius-pill: 999px;
+  --radius-stone: 42% 58% 56% 44% / 52% 46% 54% 48%; /* organic pebble blob */
+
+  /* Layout */
+  --maxw-prose: 66ch;
+  --maxw-content: 1080px;
+  --maxw-wide: 1280px;
+  --gutter: clamp(20px, 5vw, 64px);   /* @kind spacing */
+}
+
+/* ── tokens/effects.css ── */
+/* Wishing Stones — Shadows, borders, motion */
+:root {
+  /* Soft, low, warm shadows — like objects resting on a sunlit shelf.
+     Never hard black; tinted with driftwood brown. */
+  --shadow-sm: 0 1px 2px rgba(59, 50, 38, 0.10);
+  --shadow-md: 0 6px 18px rgba(59, 50, 38, 0.12);
+  --shadow-lg: 0 18px 40px rgba(59, 50, 38, 0.16);
+  --shadow-lift: 0 10px 28px rgba(59, 50, 38, 0.18);
+
+  /* Pinned / taped objects get a tiny offset "propped" shadow */
+  --shadow-prop: 2px 3px 0 rgba(59, 50, 38, 0.14);
+
+  /* Borders */
+  --border-1: 1px solid var(--border-hairline);
+  --border-ink: 2px solid var(--sea-900);
+
+  /* Motion — gentle, tidal; nothing snappy or springy */
+  --ease-tide: cubic-bezier(0.33, 0, 0.2, 1);   /* @kind other */
+  --dur-fast: 140ms;   /* @kind other */
+  --dur-med: 260ms;    /* @kind other */
+  --dur-slow: 480ms;   /* @kind other */
+}
+
+/* ── styles.css ── */
+/* Wishing Stones Design System — global entry point.
+ * Consumers link this one file. Keep it @import lines only. */
+
+/* page rules */
+.demo-wrap{padding:32px;display:flex;flex-direction:column;gap:24px}
+.demo-item{display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+.demo-label{font:12px/1.3 ui-monospace,Menlo,monospace;opacity:.7}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script>
+/* @ds-bundle: {"format":4,"namespace":"WishingStonesDesignSystem_953619","components":[{"name":"ImageFrame","sourcePath":"components/brand/ImageFrame.jsx"},{"name":"TapeLabel","sourcePath":"components/brand/TapeLabel.jsx"},{"name":"Badge","sourcePath":"components/content/Badge.jsx"},{"name":"Card","sourcePath":"components/content/Card.jsx"},{"name":"Tag","sourcePath":"components/content/Tag.jsx"},{"name":"Button","sourcePath":"components/forms/Button.jsx"},{"name":"IconButton","sourcePath":"components/forms/IconButton.jsx"},{"name":"Input","sourcePath":"components/forms/Input.jsx"}],"sourceHashes":{"components/brand/ImageFrame.jsx":"b0471149f905","components/brand/TapeLabel.jsx":"91315d616469","components/content/Badge.jsx":"d1428c06a03d","components/content/Card.jsx":"4440cc56f3ef","components/content/Tag.jsx":"a48193d2acec","components/forms/Button.jsx":"f6a7782835dc","components/forms/IconButton.jsx":"4f1c36404a25","components/forms/Input.jsx":"a615aadbe76b","ui_kits/website/Home.jsx":"52932e888b57","ui_kits/website/Map.jsx":"f3c4f176a7c7","ui_kits/website/Nav.jsx":"46a9058ff85b","ui_kits/website/Rooms.jsx":"c8f1b10105c3","ui_kits/website/Shop.jsx":"dc18c9762631","ui_kits/website/Visit.jsx":"290ad81fa25f","ui_kits/website/image-slot.js":"c49d3c52160b","ui_kits/website/photos.js":"e6311d822bb4","ui_kits/website/shared.jsx":"de9f46ff85f7"},"inlinedExternals":[],"unexposedExports":[]} */
+
+(() => {
+
+const __ds_ns = (window.WishingStonesDesignSystem_953619 = window.WishingStonesDesignSystem_953619 || {});
+
+const __ds_scope = {};
+
+(__ds_ns.__errors = __ds_ns.__errors || []);
+
+// components/brand/ImageFrame.jsx
+try { (() => {
+function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
+/**
+ * Wishing Stones — ImageFrame
+ * A gallery frame with a warm mat border for artwork & photos.
+ * `driftwood` gives a thick weathered-wood edge.
+ */
+function ImageFrame({
+  src,
+  alt = "",
+  caption,
+  driftwood = false,
+  tilt = 0,
+  style,
+  ...rest
+}) {
+  return /*#__PURE__*/React.createElement("figure", _extends({
+    style: {
+      margin: 0,
+      display: "inline-block",
+      background: driftwood ? "var(--driftwood-500)" : "var(--sand-50)",
+      padding: driftwood ? "14px" : "10px",
+      borderRadius: driftwood ? "4px" : "var(--radius-sm)",
+      boxShadow: "var(--shadow-lg)",
+      border: driftwood ? "1px solid var(--driftwood-700)" : "1px solid var(--border-hairline)",
+      transform: tilt ? `rotate(${tilt}deg)` : undefined,
+      ...style
+    }
+  }, rest), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "#fff",
+      padding: driftwood ? "10px" : "8px",
+      borderRadius: "2px"
+    }
+  }, /*#__PURE__*/React.createElement("img", {
+    src: src,
+    alt: alt,
+    style: {
+      display: "block",
+      width: "100%",
+      height: "auto",
+      borderRadius: "1px"
+    }
+  })), caption && /*#__PURE__*/React.createElement("figcaption", {
+    style: {
+      fontFamily: "var(--font-hand)",
+      fontWeight: 600,
+      fontSize: "1.25rem",
+      color: driftwood ? "var(--sand-100)" : "var(--text-muted)",
+      textAlign: "center",
+      paddingTop: "8px"
+    }
+  }, caption));
+}
+Object.assign(__ds_scope, { ImageFrame });
+})(); } catch (e) { __ds_ns.__errors.push({ path: "components/brand/ImageFrame.jsx", error: String((e && e.message) || e) }); }
+
+// components/brand/TapeLabel.jsx
+try { (() => {
+function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
+/**
+ * Wishing Stones — TapeLabel
+ * A strip of masking tape with a handwritten note. Quirky, makeshift signage —
+ * prices, "found on the beach!", hours scrawled by hand.
+ */
+function TapeLabel({
+  tone = "kraft",
+  rotate = -3,
+  children,
+  style,
+  ...rest
+}) {
+  const tones = {
+    kraft: {
+      background: "#E8D9B8",
+      color: "var(--driftwood-900)"
+    },
+    washi: {
+      background: "var(--seaglass-200)",
+      color: "var(--sea-900)"
+    },
+    coral: {
+      background: "var(--accent-soft)",
+      color: "var(--coral-600)"
+    }
+  };
+  return /*#__PURE__*/React.createElement("span", _extends({
+    style: {
+      display: "inline-block",
+      fontFamily: "var(--font-hand)",
+      fontWeight: 700,
+      fontSize: "var(--fs-hand)",
+      lineHeight: 1.05,
+      padding: "6px 18px",
+      transform: `rotate(${rotate}deg)`,
+      boxShadow: "var(--shadow-prop)",
+      // torn-tape edges
+      clipPath: "polygon(2% 8%, 12% 0, 30% 6%, 52% 0, 74% 7%, 92% 0, 100% 10%, 98% 88%, 88% 100%, 66% 93%, 44% 100%, 22% 92%, 6% 100%, 0 86%)",
+      ...tones[tone],
+      ...style
+    }
+  }, rest), children);
+}
+Object.assign(__ds_scope, { TapeLabel });
+})(); } catch (e) { __ds_ns.__errors.push({ path: "components/brand/TapeLabel.jsx", error: String((e && e.message) || e) }); }
+
+// components/content/Badge.jsx
+try { (() => {
+function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
+/**
+ * Wishing Stones — Badge
+ * Small status/label pill. Sea-glass by default; accent for "new".
+ */
+function Badge({
+  tone = "glass",
+  children,
+  style,
+  ...rest
+}) {
+  const tones = {
+    glass: {
+      background: "var(--seaglass-200)",
+      color: "var(--sea-900)"
+    },
+    accent: {
+      background: "var(--accent-soft)",
+      color: "var(--coral-600)"
+    },
+    sun: {
+      background: "#F7E7BE",
+      color: "var(--driftwood-900)"
+    },
+    ink: {
+      background: "var(--sea-900)",
+      color: "var(--sand-100)"
+    }
+  };
+  return /*#__PURE__*/React.createElement("span", _extends({
+    style: {
+      display: "inline-flex",
+      alignItems: "center",
+      gap: "5px",
+      fontFamily: "var(--font-display)",
+      fontWeight: 600,
+      fontSize: "0.75rem",
+      letterSpacing: "0.02em",
+      padding: "4px 11px",
+      borderRadius: "var(--radius-pill)",
+      ...tones[tone],
+      ...style
+    }
+  }, rest), children);
+}
+Object.assign(__ds_scope, { Badge });
+})(); } catch (e) { __ds_ns.__errors.push({ path: "components/content/Badge.jsx", error: String((e && e.message) || e) }); }
+
+// components/content/Card.jsx
+try { (() => {
+function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
+/**
+ * Wishing Stones — Card
+ * A warm paper surface for gallery pieces, shop goods, or info.
+ * `tilt` gives it a hand-propped, makeshift lean.
+ */
+function Card({
+  tilt = false,
+  elevation = "md",
+  children,
+  style,
+  ...rest
+}) {
+  const shadow = {
+    sm: "var(--shadow-sm)",
+    md: "var(--shadow-md)",
+    lg: "var(--shadow-lg)"
+  }[elevation];
+  return /*#__PURE__*/React.createElement("div", _extends({
+    style: {
+      background: "var(--surface-card)",
+      border: "1px solid var(--border-hairline)",
+      borderRadius: "var(--radius-lg)",
+      boxShadow: shadow,
+      overflow: "hidden",
+      transform: tilt ? "rotate(-1.4deg)" : undefined,
+      ...style
+    }
+  }, rest), children);
+}
+Object.assign(__ds_scope, { Card });
+})(); } catch (e) { __ds_ns.__errors.push({ path: "components/content/Card.jsx", error: String((e && e.message) || e) }); }
+
+// components/content/Tag.jsx
+try { (() => {
+function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
+/**
+ * Wishing Stones — Tag
+ * Outlined filter/category chip. `active` fills it in.
+ */
+function Tag({
+  active = false,
+  children,
+  style,
+  ...rest
+}) {
+  return /*#__PURE__*/React.createElement("button", _extends({
+    style: {
+      fontFamily: "var(--font-body)",
+      fontSize: "var(--fs-small)",
+      padding: "6px 14px",
+      borderRadius: "var(--radius-pill)",
+      cursor: "pointer",
+      transition: "all var(--dur-fast) var(--ease-tide)",
+      border: "1.5px solid var(--driftwood-500)",
+      background: active ? "var(--sea-900)" : "transparent",
+      color: active ? "var(--sand-100)" : "var(--text-muted)",
+      borderColor: active ? "var(--sea-900)" : "var(--driftwood-500)",
+      ...style
+    }
+  }, rest), children);
+}
+Object.assign(__ds_scope, { Tag });
+})(); } catch (e) { __ds_ns.__errors.push({ path: "components/content/Tag.jsx", error: String((e && e.message) || e) }); }
+
+// components/forms/Button.jsx
+try { (() => {
+function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
+/**
+ * Wishing Stones — Button
+ * Warm, tactile call-to-action. Pill by default; coral accent for primary.
+ */
+function Button({
+  variant = "primary",
+  size = "md",
+  as = "button",
+  children,
+  style,
+  ...rest
+}) {
+  const sizes = {
+    sm: {
+      padding: "8px 16px",
+      fontSize: "0.9375rem"
+    },
+    md: {
+      padding: "12px 24px",
+      fontSize: "1.0625rem"
+    },
+    lg: {
+      padding: "16px 34px",
+      fontSize: "1.1875rem"
+    }
+  };
+  const variants = {
+    primary: {
+      background: "var(--accent)",
+      color: "#fff",
+      border: "2px solid var(--accent)"
+    },
+    secondary: {
+      background: "var(--sea-900)",
+      color: "var(--sand-100)",
+      border: "2px solid var(--sea-900)"
+    },
+    outline: {
+      background: "transparent",
+      color: "var(--sea-900)",
+      border: "2px solid var(--sea-900)"
+    },
+    ghost: {
+      background: "transparent",
+      color: "var(--sea-900)",
+      border: "2px solid transparent"
+    }
+  };
+  const Tag = as;
+  return /*#__PURE__*/React.createElement(Tag, _extends({
+    style: {
+      display: "inline-flex",
+      alignItems: "center",
+      gap: "8px",
+      fontFamily: "var(--font-display)",
+      fontWeight: 600,
+      lineHeight: 1,
+      borderRadius: "var(--radius-pill)",
+      cursor: "pointer",
+      textDecoration: "none",
+      transition: "transform var(--dur-fast) var(--ease-tide), background var(--dur-fast) var(--ease-tide), box-shadow var(--dur-fast) var(--ease-tide)",
+      boxShadow: "var(--shadow-sm)",
+      ...sizes[size],
+      ...variants[variant],
+      ...style
+    },
+    onMouseDown: e => e.currentTarget.style.transform = "translateY(1px)",
+    onMouseUp: e => e.currentTarget.style.transform = "",
+    onMouseLeave: e => e.currentTarget.style.transform = ""
+  }, rest), children);
+}
+Object.assign(__ds_scope, { Button });
+})(); } catch (e) { __ds_ns.__errors.push({ path: "components/forms/Button.jsx", error: String((e && e.message) || e) }); }
+
+// components/forms/IconButton.jsx
+try { (() => {
+function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
+/**
+ * Wishing Stones — IconButton
+ * Circular tactile button for a single glyph (menu, close, cart).
+ */
+function IconButton({
+  variant = "soft",
+  size = 44,
+  children,
+  style,
+  ...rest
+}) {
+  const variants = {
+    soft: {
+      background: "var(--sand-200)",
+      color: "var(--sea-900)",
+      border: "1px solid var(--border-hairline)"
+    },
+    solid: {
+      background: "var(--sea-900)",
+      color: "var(--sand-100)",
+      border: "2px solid var(--sea-900)"
+    },
+    accent: {
+      background: "var(--accent)",
+      color: "#fff",
+      border: "2px solid var(--accent)"
+    }
+  };
+  return /*#__PURE__*/React.createElement("button", _extends({
+    style: {
+      width: size,
+      height: size,
+      display: "inline-flex",
+      alignItems: "center",
+      justifyContent: "center",
+      borderRadius: "var(--radius-pill)",
+      cursor: "pointer",
+      transition: "transform var(--dur-fast) var(--ease-tide)",
+      ...variants[variant],
+      ...style
+    },
+    onMouseDown: e => e.currentTarget.style.transform = "scale(0.94)",
+    onMouseUp: e => e.currentTarget.style.transform = "",
+    onMouseLeave: e => e.currentTarget.style.transform = ""
+  }, rest), children);
+}
+Object.assign(__ds_scope, { IconButton });
+})(); } catch (e) { __ds_ns.__errors.push({ path: "components/forms/IconButton.jsx", error: String((e && e.message) || e) }); }
+
+// components/forms/Input.jsx
+try { (() => {
+function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
+/**
+ * Wishing Stones — Input
+ * Text field with an optional label. Underlined, paper-warm.
+ */
+function Input({
+  label,
+  hint,
+  id,
+  style,
+  ...rest
+}) {
+  const inputId = id || (label ? "in-" + label.replace(/\s+/g, "-").toLowerCase() : undefined);
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: "6px"
+    }
+  }, label && /*#__PURE__*/React.createElement("label", {
+    htmlFor: inputId,
+    style: {
+      fontFamily: "var(--font-body)",
+      fontSize: "var(--fs-caption)",
+      textTransform: "uppercase",
+      letterSpacing: "var(--ls-label)",
+      color: "var(--text-muted)"
+    }
+  }, label), /*#__PURE__*/React.createElement("input", _extends({
+    id: inputId,
+    style: {
+      fontFamily: "var(--font-body)",
+      fontSize: "var(--fs-body)",
+      color: "var(--text-strong)",
+      background: "var(--sand-50)",
+      border: "1px solid var(--border-hairline)",
+      borderBottom: "2px solid var(--driftwood-500)",
+      borderRadius: "var(--radius-sm)",
+      padding: "11px 14px",
+      outline: "none",
+      transition: "border-color var(--dur-fast) var(--ease-tide)",
+      ...style
+    },
+    onFocus: e => e.currentTarget.style.borderBottomColor = "var(--accent)",
+    onBlur: e => e.currentTarget.style.borderBottomColor = "var(--driftwood-500)"
+  }, rest)), hint && /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontFamily: "var(--font-body)",
+      fontSize: "var(--fs-caption)",
+      color: "var(--text-faint)"
+    }
+  }, hint));
+}
+Object.assign(__ds_scope, { Input });
+})(); } catch (e) { __ds_ns.__errors.push({ path: "components/forms/Input.jsx", error: String((e && e.message) || e) }); }
+
+__ds_ns.ImageFrame = __ds_scope.ImageFrame;
+__ds_ns.TapeLabel = __ds_scope.TapeLabel;
+__ds_ns.Badge = __ds_scope.Badge;
+__ds_ns.Card = __ds_scope.Card;
+__ds_ns.Tag = __ds_scope.Tag;
+__ds_ns.Button = __ds_scope.Button;
+__ds_ns.IconButton = __ds_scope.IconButton;
+__ds_ns.Input = __ds_scope.Input;
+
+})();
+
+</script>
+</head><body>
+<div id="app"></div>
+<script>
+(function(){
+var h=React.createElement, DS=window["WishingStonesDesignSystem_953619"]||{};
+class Safe extends React.Component{constructor(p){super(p);this.state={err:null}}static getDerivedStateFromError(e){return{err:e}}render(){return this.state.err?h('div',{className:'demo-label'},'render failed: '+this.state.err.message):this.props.children}}
+// DEMO — one entry per component. Add the NEEDS-PROPS ones with real props from their .d.ts.
+// NEEDS-PROPS: ImageFrame (required: src)
+var DEMO=[
+  ['TapeLabel', function(){ return h(DS.TapeLabel, null, 'TapeLabel'); }],
+  ['Badge', function(){ return h(DS.Badge, null, 'Badge'); }],
+  ['Card', function(){ return h(DS.Card, {style:{padding:24,maxWidth:320}}, 'Card'); }],
+  ['Tag', function(){ return h(DS.Tag, null, 'Tag'); }],
+  ['Button', function(){ return h(DS.Button, null, 'Button'); }],
+  ['IconButton', function(){ return h(DS.IconButton, {'aria-label':'Close'}, '\u00d7'); }],
+  ['Input', function(){ return h(DS.Input, {label:'Email', hint:'Helper text', placeholder:'you@example.com'}); }],
+  ['ImageFrame', function(){ return h(DS.ImageFrame, {src:"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='180'%3E%3Crect width='240' height='180' fill='%23E8DCC4'/%3E%3C/svg%3E", alt:'Placeholder', caption:'ImageFrame', tilt:-2, style:{width:240}}); }]
+];
+function App(){return h('div',{className:'demo-wrap'},h('h1',null,"Wishing Stones"),DEMO.map(function(d){return h('div',{key:d[0],className:'demo-item'},h('div',{className:'demo-label'},d[0]),h(Safe,null,h(d[1])));}));}
+ReactDOM.createRoot(document.getElementById('app')).render(h(App));
+})();
+</script>
+</body></html>

@@ -1,0 +1,18 @@
+<!-- @dsCard group="Spacing" viewport="700x180" name="Radii & Pebble Shape" subtitle="Gently rounded — sea-tumbled, never sharp" -->
+<!DOCTYPE html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../styles.css">
+<style>
+  body{margin:0;background:#fff;font-family:var(--font-body)}
+  .wrap{padding:20px 28px;display:flex;gap:20px;align-items:center}
+  .box{width:80px;height:80px;background:var(--tide-300);display:flex;align-items:flex-end;justify-content:center;color:var(--sea-900);font-family:var(--font-display);font-size:11px;font-weight:600;padding-bottom:6px;box-sizing:border-box}
+  .stone{background:var(--driftwood-500);color:#fff}
+  .lbl{font-size:10px;color:var(--text-faint);text-align:center;margin-top:5px}
+</style></head>
+<body>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#E4674A"/><text x="50" y="62" font-size="34" text-anchor="middle" fill="#1A1A1A" font-family="serif">WS</text></svg></template><div class="wrap">
+  <div><div class="box" style="border-radius:6px">sm</div><div class="lbl">6px</div></div>
+  <div><div class="box" style="border-radius:12px">md</div><div class="lbl">12px</div></div>
+  <div><div class="box" style="border-radius:20px">lg</div><div class="lbl">20px</div></div>
+  <div><div class="box" style="border-radius:32px">xl</div><div class="lbl">32px</div></div>
+  <div><div class="box" style="border-radius:999px">pill</div><div class="lbl">pill</div></div>
+  <div><div class="box stone" style="border-radius:42% 58% 56% 44% / 52% 46% 54% 48%">stone</div><div class="lbl">--radius-stone</div></div>
+</div></body></html>
